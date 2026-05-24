@@ -1441,6 +1441,22 @@ section {
   color: var(--color-white-1);
 }
 
+/* Mobile: stacked layout with left-aligned text, larger padding,
+   tighter (less pill-like) corners */
+@media (max-width: 640px) {
+  .trial-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 28px 26px;
+    border-radius: 20px;
+    gap: 10px;
+  }
+  .trial-banner .num  { font-size: 26px; }
+  .trial-banner .text { font-size: 14.5px; line-height: 1.5; }
+}
+
 /* ===== FINAL CTA =========================================== */
 .final-cta {
   background: var(--color-black-1);
