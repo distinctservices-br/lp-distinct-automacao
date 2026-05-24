@@ -15,18 +15,10 @@ window.addEventListener('scroll', onScrollNav, { passive: true });
 onScrollNav();
 
 // ─── Hero canvas: cursor-reactive particle field ──────────────
-// Performance budget:
-//  • Skip entirely on touch devices (no hover = no value) and when
-//    prefers-reduced-motion is set (matched in CSS too).
-//  • Particle count scales with viewport area (300 max, 90 min).
-//  • Loop pauses when hero is scrolled out of view.
-//  • Loop pauses when document is hidden (tab in background).
 (function heroCanvas() {
   const canvas = document.getElementById('heroCanvas');
   if (!canvas) return;
 
-  // Bail on touch / no-hover devices — cursor parallax adds zero value
-  // and the cost (battery + thermal) is real on low-end phones.
   const isTouch = window.matchMedia('(hover: none)').matches ||
                   window.matchMedia('(pointer: coarse)').matches;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -39,16 +31,27 @@ onScrollNav();
   let W = 0, H = 0;
   let mx = -9999, my = -9999;
   let particles = [];
-  let running = true;
+  let running = false;
+  let rafId = 0; // guard: only one rAF chain runs at a time
+
+  // Pre-built fill-style lookup tables — avoids per-frame string alloc
+  // 64 levels of opacity, pre-rendered as rgba strings
+  const BASE_FILLS  = new Array(64);
+  const GLOW_FILLS  = new Array(64);
+  for (let i = 0; i < 64; i++) {
+    const a = (0.07 + (i / 63) * 0.40).toFixed(2);
+    const g = (i / 63 * 0.055).toFixed(3);
+    BASE_FILLS[i] = `rgba(115,243,164,${a})`;
+    GLOW_FILLS[i] = `rgba(115,243,164,${g})`;
+  }
 
   function buildParticleGrid() {
-    // Target roughly 1 particle per 8000 px² of viewport, clamped.
     const area = W * H;
-    const target = Math.max(90, Math.min(300, Math.round(area / 8000)));
-    // Match grid aspect to viewport so spacing stays visually even
+    // Reduced ceiling to 120 (was 300) — still looks great, costs ~60% less GPU
+    const target = Math.max(60, Math.min(120, Math.round(area / 10000)));
     const ar = W / Math.max(1, H);
-    const rows = Math.max(8, Math.round(Math.sqrt(target / ar)));
-    const cols = Math.max(10, Math.round(target / rows));
+    const rows = Math.max(6, Math.round(Math.sqrt(target / ar)));
+    const cols = Math.max(8, Math.round(target / rows));
     particles = new Array(rows * cols);
     let i = 0;
     for (let c = 0; c < cols; c++) {
@@ -58,12 +61,18 @@ onScrollNav();
         particles[i++] = { ox, oy, x: ox, y: oy, sz: 1.0 + Math.random() * 0.9 };
       }
     }
+    particles.length = i; // trim any extra slots
   }
 
   function resize() {
     W = canvas.width  = canvas.offsetWidth;
     H = canvas.height = canvas.offsetHeight;
     buildParticleGrid();
+  }
+
+  function scheduleResume() {
+    // Only start a new rAF chain if one isn't already running
+    if (running && rafId === 0) rafId = requestAnimationFrame(draw);
   }
 
   const heroEl = canvas.closest('.hero');
@@ -75,25 +84,26 @@ onScrollNav();
     }, { passive: true });
     heroEl.addEventListener('mouseleave', () => { mx = -9999; my = -9999; });
 
-    // Pause loop when hero is scrolled out of view
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(entries => {
         running = entries[0].isIntersecting;
-        if (running) requestAnimationFrame(draw);
+        if (running) scheduleResume();
       }, { threshold: 0.01 });
       io.observe(heroEl);
     }
   }
 
-  // Pause when tab loses focus — most impactful battery save
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden && (heroEl ? heroEl.getBoundingClientRect().bottom > 0 : true);
-    if (running) requestAnimationFrame(draw);
+    if (running) scheduleResume();
   });
 
   function draw() {
-    if (!running) return;
-    requestAnimationFrame(draw);
+    if (!running) {
+      rafId = 0; // chain ends here; scheduleResume() will restart it if needed
+      return;
+    }
+    rafId = requestAnimationFrame(draw);
     ctx.clearRect(0, 0, W, H);
     const len = particles.length;
     for (let i = 0; i < len; i++) {
@@ -103,32 +113,38 @@ onScrollNav();
       const influence = Math.max(0, 1 - dist / 230);
       p.x += (p.ox + dx * influence * 0.30 - p.x) * 0.072;
       p.y += (p.oy + dy * influence * 0.30 - p.y) * 0.072;
-      const a  = 0.07 + influence * 0.40;
-      const sz = p.sz + influence * 2.8;
+
+      // Map influence (0–1) to lookup index (0–63) — no string alloc
+      const idx = Math.min(63, Math.round(influence * 63));
+      const sz  = p.sz + influence * 2.8;
+
       ctx.beginPath();
       ctx.arc(p.x, p.y, sz, 0, 6.2832);
-      ctx.fillStyle = `rgba(115,243,164,${a.toFixed(2)})`;
+      ctx.fillStyle = BASE_FILLS[idx];
       ctx.fill();
+
       if (influence > 0.22) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, sz * 4.5, 0, 6.2832);
-        ctx.fillStyle = `rgba(115,243,164,${(influence * 0.055).toFixed(3)})`;
+        ctx.fillStyle = GLOW_FILLS[idx];
         ctx.fill();
       }
     }
   }
 
   resize();
-  // Debounced resize — avoids rebuilding particles on every pixel
   let resizeT;
   window.addEventListener('resize', () => {
     clearTimeout(resizeT);
     resizeT = setTimeout(resize, 140);
   });
-  requestAnimationFrame(draw);
+
+  // Start running — visibility/intersection will pause it when appropriate
+  running = true;
+  rafId = requestAnimationFrame(draw);
 })();
 
-// ─── Hero GSAP reveal — tighter, less drawn-out ───────────────
+// ─── Hero GSAP reveal ─────────────────────────────────────────
 (function heroTimeline() {
   const lines = gsap.utils.toArray('.hero-line-inner');
   if (!lines.length) return;
@@ -141,10 +157,8 @@ onScrollNav();
   gsap.set('#scrollIndicator', { opacity: 0 });
 
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
   tl
     .to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.55 })
-    // Short tension pause (was 0.38, now 0.15) before heading erupts
     .to(lines, { y: '0%', duration: 0.75, ease: 'expo.out', stagger: 0.09 }, '+=0.15')
     .to('.hero-sub',     { opacity: 1, y: 0, duration: 0.6 }, '-=0.40')
     .to('.hero-cta-row', { opacity: 1, y: 0, duration: 0.55 }, '-=0.45')
@@ -152,7 +166,7 @@ onScrollNav();
     .to('#scrollIndicator', { opacity: 1, duration: 0.6 }, '-=0.20');
 })();
 
-// ─── Scroll indicator: vanish on first scroll ────────────────
+// ─── Scroll indicator: vanish on first scroll ─────────────────
 (function scrollIndicator() {
   const el = document.getElementById('scrollIndicator');
   if (!el) return;
@@ -164,7 +178,7 @@ onScrollNav();
   }, { passive: true });
 })();
 
-// ─── Scroll reveals (all .reveal elements below fold) ────────
+// ─── Scroll reveals (all .reveal elements below fold) ─────────
 gsap.utils.toArray('.reveal').forEach(el => {
   const delay = parseFloat(el.dataset.delay || '0') / 1000;
   gsap.to(el, {
@@ -186,8 +200,7 @@ gsap.utils.toArray('.reveal').forEach(el => {
   const consoleEl = document.querySelector('.console');
   if (!consoleEl) return;
 
-  // ── Counters: animate 0 → target when console enters view
-  const counters = consoleEl.querySelectorAll('[data-counter]');
+  const counters  = consoleEl.querySelectorAll('[data-counter]');
   const storeBars = consoleEl.querySelectorAll('.store-bar .fill');
 
   ScrollTrigger.create({
@@ -217,11 +230,11 @@ gsap.utils.toArray('.reveal').forEach(el => {
     },
   });
 
-  // ── Cycle countdown + progress bar
+  // ── Cycle countdown — pauses when tab is hidden
   const cycleTimeEl = document.getElementById('cycleTime');
-  const cycleFill = document.getElementById('cycleFill');
-  const CYCLE_TOTAL = 30 * 60; // 30 min cycle
-  let remaining = 8 * 60 + 42; // start at 8:42 for visual variety
+  const cycleFill   = document.getElementById('cycleFill');
+  const CYCLE_TOTAL = 30 * 60;
+  let remaining = 8 * 60 + 42;
 
   function fmt(s) {
     const m = Math.floor(s / 60);
@@ -229,42 +242,40 @@ gsap.utils.toArray('.reveal').forEach(el => {
     return `${String(m).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
   }
   function tickCycle() {
+    if (document.hidden) return; // don't burn cycles in background
     if (cycleTimeEl) cycleTimeEl.textContent = fmt(remaining);
     if (cycleFill) {
-      const pct = ((CYCLE_TOTAL - remaining) / CYCLE_TOTAL) * 100;
-      cycleFill.style.width = pct + '%';
+      cycleFill.style.width = ((CYCLE_TOTAL - remaining) / CYCLE_TOTAL * 100) + '%';
     }
-    remaining--;
-    if (remaining < 0) remaining = CYCLE_TOTAL;
+    remaining = remaining > 0 ? remaining - 1 : CYCLE_TOTAL;
   }
   tickCycle();
   setInterval(tickCycle, 1000);
 
-  // ── Live activity feed — rotating items
+  // ── Live activity feed
   const feedList = document.getElementById('feedList');
   if (!feedList) return;
 
   const MARKETPLACES = {
-    Shopee:   { cls: 'mp-shopee' },
-    ML:       { cls: 'mp-ml' },
-    Amazon:   { cls: 'mp-amazon' },
-    TikTok:   { cls: 'mp-tiktok' },
-    Nuvem:    { cls: 'mp-nuvem' },
-    Shopify:  { cls: 'mp-shopify' },
+    Shopee:  { cls: 'mp-shopee' },
+    ML:      { cls: 'mp-ml' },
+    Amazon:  { cls: 'mp-amazon' },
+    TikTok:  { cls: 'mp-tiktok' },
+    Nuvem:   { cls: 'mp-nuvem' },
+    Shopify: { cls: 'mp-shopify' },
   };
 
-  // Pool of realistic events; cycled in order
   const EVENTS = [
-    { mp: 'Shopee',  action: 'NF emitida',         id: '#48291' },
-    { mp: 'ML',      action: 'Envio programado',   id: '#48290' },
-    { mp: 'Amazon',  action: 'Etiqueta impressa',  id: '#48289' },
-    { mp: 'TikTok',  action: 'NF emitida',         id: '#48288' },
-    { mp: 'Nuvem',   action: 'Envio programado',   id: '#48287' },
-    { mp: 'Shopify', action: 'Etiqueta impressa',  id: '#48286' },
-    { mp: 'Shopee',  action: 'Etiqueta impressa',  id: '#48285' },
-    { mp: 'ML',      action: 'NF emitida',         id: '#48284' },
-    { mp: 'Amazon',  action: 'Envio programado',   id: '#48283' },
-    { mp: 'TikTok',  action: 'Etiqueta impressa',  id: '#48282' },
+    { mp: 'Shopee',  action: 'NF emitida',        id: '#48291' },
+    { mp: 'ML',      action: 'Envio programado',  id: '#48290' },
+    { mp: 'Amazon',  action: 'Etiqueta impressa', id: '#48289' },
+    { mp: 'TikTok',  action: 'NF emitida',        id: '#48288' },
+    { mp: 'Nuvem',   action: 'Envio programado',  id: '#48287' },
+    { mp: 'Shopify', action: 'Etiqueta impressa', id: '#48286' },
+    { mp: 'Shopee',  action: 'Etiqueta impressa', id: '#48285' },
+    { mp: 'ML',      action: 'NF emitida',        id: '#48284' },
+    { mp: 'Amazon',  action: 'Envio programado',  id: '#48283' },
+    { mp: 'TikTok',  action: 'Etiqueta impressa', id: '#48282' },
   ];
 
   const MAX_FEED = 5;
@@ -287,52 +298,49 @@ gsap.utils.toArray('.reveal').forEach(el => {
     items.forEach((item, i) => {
       const t = item.querySelector('.feed-time');
       if (!t) return;
-      if (i === 0) t.textContent = 'agora';
+      if (i === 0)      t.textContent = 'agora';
       else if (i === 1) t.textContent = 'há 3s';
-      else t.textContent = `há ${i * 4 - 1}s`;
+      else              t.textContent = `há ${i * 4 - 1}s`;
     });
   }
 
   function addItem() {
+    if (document.hidden) return; // skip updates when tab not visible
+
     const ev = EVENTS[seq % EVENTS.length];
     seq++;
     const li = makeItem(ev, true);
     feedList.prepend(li);
     updateTimes();
 
-    // Slide in animation
     gsap.fromTo(li,
       { opacity: 0, y: -14, scaleY: 0.85 },
       { opacity: 1, y: 0, scaleY: 1, duration: 0.6, ease: 'power3.out' }
     );
-
-    // Drop highlight after a moment
     setTimeout(() => li.classList.remove('is-new'), 1400);
 
-    // Trim list
+    // Trim: kill any running tween on the outgoing element before removing
     while (feedList.children.length > MAX_FEED) {
       const last = feedList.lastElementChild;
+      gsap.killTweensOf(last);
       gsap.to(last, {
-        opacity: 0, y: 8, duration: 0.45, ease: 'power3.in',
-        onComplete: () => last.remove(),
+        opacity: 0, y: 8, duration: 0.35, ease: 'power3.in',
+        onComplete: () => { if (last.parentNode) last.remove(); },
       });
+      break; // only trim one per tick
     }
   }
 
-  // Pre-populate 3 items for context
+  // Pre-populate 3 static items
   for (let i = 0; i < 3; i++) {
     feedList.appendChild(makeItem(EVENTS[i], false));
     seq++;
   }
   updateTimes();
-
-  // Rotate new item in every 3.5 s
   setInterval(addItem, 3500);
 })();
 
-// ─── FAQ accordion ───────────────────────────────────────────
-// Keyboard-accessible: each Q is a <button>, ARIA expanded toggled.
-// One-open-at-a-time pattern for tighter cognitive flow.
+// ─── FAQ accordion ────────────────────────────────────────────
 (function faqAccordion() {
   const items = document.querySelectorAll('.faq-item');
   if (!items.length) return;
@@ -342,12 +350,11 @@ gsap.utils.toArray('.reveal').forEach(el => {
     if (!btn) return;
     btn.addEventListener('click', () => {
       const isOpen = item.classList.contains('is-open');
-      // Close all others (one-open-at-a-time)
       items.forEach(other => {
         if (other !== item) {
           other.classList.remove('is-open');
-          const otherBtn = other.querySelector('.faq-q');
-          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+          const ob = other.querySelector('.faq-q');
+          if (ob) ob.setAttribute('aria-expanded', 'false');
         }
       });
       item.classList.toggle('is-open', !isOpen);
@@ -359,10 +366,10 @@ gsap.utils.toArray('.reveal').forEach(el => {
 // ─── Live clock (diferenciais) ────────────────────────────────
 const diffClock = document.getElementById('diffClock');
 function tickClock() {
-  if (!diffClock) return;
+  if (!diffClock || document.hidden) return;
   const d = new Date();
   diffClock.textContent =
-    String(d.getHours()).padStart(2, '0') + 'h' +
+    String(d.getHours()).padStart(2, '0')   + 'h' +
     String(d.getMinutes()).padStart(2, '0') + ':' +
     String(d.getSeconds()).padStart(2, '0');
 }
