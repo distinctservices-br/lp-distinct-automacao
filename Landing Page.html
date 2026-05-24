@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0F0F0F" />
+<meta name="color-scheme" content="dark" />
+
+<title>Distinct Services — Automação operacional para lojistas multi-marketplace</title>
+<meta name="description" content="Distinct emite a nota, programa o envio e imprime a etiqueta de todas as suas lojas (Shopee, ML, Amazon, TikTok, Nuvemshop, Shopify) — no horário que você definir, sem você abrir o Upseller. 5 dias grátis, sem cartão." />
+<meta name="keywords" content="automação Upseller, emissão NF automática, etiqueta marketplace, Shopee Mercado Livre Amazon, automação operacional, lojista multi-marketplace" />
+<meta name="author" content="Distinct Services" />
+<link rel="canonical" href="https://distinctservices.com.br/" />
+
+<!-- Open Graph / Facebook / LinkedIn -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Distinct Services" />
+<meta property="og:url" content="https://distinctservices.com.br/" />
+<meta property="og:title" content="Seus pedidos já estão prontos. E você ainda nem acordou." />
+<meta property="og:description" content="Distinct emite NF, programa envio e imprime etiqueta — em todas as suas lojas, sem você abrir o sistema. 5 dias grátis, sem cartão." />
+<meta property="og:image" content="https://distinctservices.com.br/assets/og-image.svg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Distinct Services — automação operacional para lojistas multi-marketplace" />
+<meta property="og:locale" content="pt_BR" />
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Seus pedidos já estão prontos. E você ainda nem acordou." />
+<meta name="twitter:description" content="Distinct emite NF, programa envio e imprime etiqueta — em todas as suas lojas, sem você abrir o sistema." />
+<meta name="twitter:image" content="https://distinctservices.com.br/assets/og-image.svg" />
+
+<!-- Favicon set -->
+<link rel="icon" href="assets/logo-1.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/logo-1.svg" />
+
+<!-- Preconnect to font CDN (JetBrains Mono comes from Google Fonts) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- Preload critical above-the-fold fonts -->
+<link rel="preload" href="styles/fonts/MontserratAlternates-Bold.ttf" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="styles/fonts/Inter_18pt-Regular.ttf"      as="font" type="font/ttf" crossorigin />
+
+<!-- DNS prefetch + preconnect for GSAP CDN -->
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
+<!-- Structured data: Organization + SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://distinctservices.com.br/#org",
+      "name": "Distinct Services",
+      "url": "https://distinctservices.com.br/",
+      "logo": "https://distinctservices.com.br/assets/logo-1.svg",
+      "sameAs": []
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Distinct",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Automação operacional para lojistas multi-marketplace. Emite NF, programa envio e imprime etiqueta sem intervenção manual.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL",
+        "description": "5 dias grátis, sem cartão"
+      },
+      "publisher": { "@id": "https://distinctservices.com.br/#org" }
+    }
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="styles/tokens.css" />
+<link rel="stylesheet" href="styles/site.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav class="nav" data-screen-label="Nav">
+  <div class="container nav-inner">
+    <a href="#top" class="nav-brand">
+      <img src="assets/logo-1.svg" alt="Distinct" />
+      <span class="nav-brand-text">DISTINCT</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#problema">O problema</a></li>
+      <li><a href="#fluxo">Como funciona</a></li>
+      <li><a href="#diferenciais">Diferenciais</a></li>
+      <li><a href="#planos">Planos</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="https://wa.me/5511990224104?text=Ol%C3%A1!%20Quero%20testar%20a%20automa%C3%A7%C3%A3o%20da%20Distinct%20por%205%20dias." class="btn btn-primary" target="_blank" rel="noopener">Testar 5 dias grátis</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero" id="top" data-screen-label="01 Hero">
+  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="hero-bg"></div>
+
+  <div class="container hero-inner">
+    <span class="eyebrow-tag hero-eyebrow">Para lojistas multi-marketplace</span>
+
+    <h1 class="hero-heading" aria-label="Seus pedidos já estão prontos. E você ainda nem acordou.">
+      <span class="hero-line"><span class="hero-line-inner">Seus pedidos</span></span>
+      <span class="hero-line"><span class="hero-line-inner">já estão prontos.</span></span>
+      <span class="hero-line hero-line--grad"><span class="hero-line-inner">E você ainda nem acordou.</span></span>
+    </h1>
+
+    <p class="hero-sub">
+      Distinct emite a nota, programa o envio e imprime a etiqueta de todas as suas lojas — no horário que você definir, sem você abrir o sistema.
+    </p>
+
+    <div class="hero-cta-row">
+      <a href="https://wa.me/5511990224104?text=Ol%C3%A1!%20Quero%20testar%20a%20automa%C3%A7%C3%A3o%20da%20Distinct%20por%205%20dias." class="btn btn-primary btn-arrow" target="_blank" rel="noopener">Testar 5 dias grátis</a>
+      <a href="#fluxo" class="btn btn-ghost">Ver demo em 60s</a>
+    </div>
+
+    <div class="hero-meta">
+      <span>Setup em 24h</span>
+      <span class="hero-meta-dot"></span>
+      <span>Sem cartão pra começar</span>
+      <span class="hero-meta-dot"></span>
+      <span>Cancela quando quiser</span>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" id="scrollIndicator" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMPATIBILIDADE
+============================================================ -->
+<section class="compat" data-screen-label="02 Compatibilidade">
+  <div class="container">
+    <div class="compat-title">
+      <span class="label">Uma junção do seu ERP com a Distinct</span>
+      <p>Roda em cima do <span class="accent" style="color:var(--color-primary)">Upseller</span> e captura pedidos das principais plataformas do Brasil</p>
+    </div>
+  </div>
+
+  <div class="marquee">
+    <div class="marquee-track" id="marqueeTrack">
+      <!-- Two copies for seamless loop, injected by JS below for clarity -->
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRUST BAR — concrete numbers (placeholder values; TEAM: replace with real metrics)
+============================================================ -->
+<section class="trust-bar" data-screen-label="02b Trust">
+  <div class="container">
+    <ul class="trust-stats reveal">
+      <li>
+        <span class="trust-num">300+</span>
+        <span class="trust-lbl">lojistas operando<br/>com a Distinct</span>
+      </li>
+      <li>
+        <span class="trust-num">2.4M</span>
+        <span class="trust-lbl">pedidos processados<br/>nos últimos 12 meses</span>
+      </li>
+      <li>
+        <span class="trust-num">90<small>min</small></span>
+        <span class="trust-lbl">economizados<br/>por dia, em média</span>
+      </li>
+      <li>
+        <span class="trust-num">99,98<small>%</small></span>
+        <span class="trust-lbl">uptime nos<br/>últimos 6 meses</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROBLEMA
+============================================================ -->
+<section class="problem" id="problema" data-screen-label="03 Problema">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow-tag warn">O problema diário</span>
+      <h2>Todo dia você perde até <span class="accent">90 minutos</span> nisso.</h2>
+      <p>Manhã, almoço e fim de tarde. O lojista que tem 50+ pedidos por dia repete o mesmo ritual três vezes só pra colocar a operação na rua. E quando aparece um pedido depois que você já imprimiu, recomeça tudo de novo.</p>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-list reveal">
+        <div class="problem-item">
+          <div class="icon">⏱</div>
+          <div>
+            <h4>Pesquisar pedidos que saem hoje</h4>
+            <p>Você filtra por marketplace e se aquele pedido deve sair hoje. Anota o que cabe, fecha o que não. Toda manhã. Em todas as lojas.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="icon">⎈</div>
+          <div>
+            <h4>Emitir NF, programar envio, imprimir</h4>
+            <p>Esse é o passo a passo, Todo. Santo. Dia.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="icon">↺</div>
+          <div>
+            <h4>Recomeçar a cada pedido novo</h4>
+            <p>Sempre cai mais um. Você imprime e volta de novo, e de novo, até bater o corte. Ou esquece e a etiqueta sai amanhã.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="icon">▤</div>
+          <div>
+            <h4>Separar tudo depois</h4>
+            <p>Pilha de etiquetas misturadas: Shopee, Mercado Livre, TikTok. Calça, camiseta, P, M, G. Você organiza com a mão.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-visual reveal" data-delay="120">
+        <span class="problem-visual-label">Tempo perdido por dia</span>
+        <div>
+          <div class="problem-visual-number">90<span class="unit">min</span></div>
+          <div class="problem-visual-bars" aria-hidden="true">
+            <span style="height:30%"></span>
+            <span style="height:55%"></span>
+            <span style="height:40%"></span>
+            <span style="height:75%"></span>
+            <span style="height:60%"></span>
+            <span style="height:90%"></span>
+            <span style="height:48%"></span>
+            <span style="height:82%"></span>
+            <span style="height:65%"></span>
+            <span style="height:95%"></span>
+            <span style="height:55%"></span>
+            <span style="height:78%"></span>
+          </div>
+        </div>
+        <div class="problem-visual-foot">
+          <div>3 ciclos manuais por dia: <span style="color:var(--color-muted-text-light)"> manhã, almoço, fim de tarde.</span></div>
+          <div style="color:var(--color-muted-text-light)">= até 7h30 por semana, só copiando e colando.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FLUXO — Console de operação ao vivo
+============================================================ -->
+<section class="flow" id="fluxo" data-screen-label="04 Fluxo">
+  <div class="container">
+
+    <div class="section-head center reveal">
+      <span class="eyebrow-tag">Prova ao vivo</span>
+      <h2>Veja a <span class="accent">Distinct</span> operando agora.</h2>
+      <p>Uma execução real, rodando em quatro lojas de um mesmo cliente. NF emitida, envio programado, etiqueta na bandeja — agrupado por loja, produto e variação.</p>
+    </div>
+
+    <div class="console reveal" data-delay="80">
+      <!-- Browser chrome -->
+      <div class="console-chrome">
+        <div class="chrome-dots" aria-hidden="true">
+          <span class="dot dot-r"></span>
+          <span class="dot dot-y"></span>
+          <span class="dot dot-g"></span>
+        </div>
+        <div class="chrome-url">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span class="host">distinct.app</span><span class="path">/operacao</span>
+        </div>
+        <div class="chrome-status">
+          <span class="status-dot"></span>
+          <span class="status-label">LIVE</span>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="console-stats">
+        <div class="stat-card">
+          <span class="stat-label">NFs emitidas hoje</span>
+          <span class="stat-value" data-counter="247">0</span>
+          <span class="stat-delta">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 4l8 10h-5v6h-6v-6H4z"/></svg>
+            +34 na última hora
+          </span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Etiquetas impressas</span>
+          <span class="stat-value" data-counter="186">0</span>
+          <span class="stat-delta">em 4 lojas processadas</span>
+        </div>
+        <div class="stat-card stat-card-cycle">
+          <span class="stat-label">Próximo ciclo</span>
+          <span class="stat-value stat-value-time" id="cycleTime">08:42</span>
+          <div class="cycle-bar"><div class="cycle-fill" id="cycleFill"></div></div>
+        </div>
+      </div>
+
+      <!-- Two-panel grid -->
+      <div class="console-grid">
+        <!-- Live activity feed -->
+        <section class="panel feed-panel">
+          <header class="panel-head">
+            <h3>Atividade</h3>
+            <span class="panel-meta">últimos eventos</span>
+          </header>
+          <ul class="feed-list" id="feedList" aria-live="polite"><!-- injected by JS --></ul>
+        </section>
+
+        <!-- Per-marketplace breakdown -->
+        <section class="panel store-panel">
+          <header class="panel-head">
+            <h3>Por loja</h3>
+            <span class="panel-meta">hoje</span>
+          </header>
+          <ul class="store-list">
+            <li class="store-row">
+              <span class="store-mark store-shopee">SH</span>
+              <span class="store-name">Loja Shopee</span>
+              <span class="store-bar"><span class="fill" style="--w:88%"></span></span>
+              <span class="store-count" data-counter="94">0</span>
+            </li>
+            <li class="store-row">
+              <span class="store-mark store-ml">ML</span>
+              <span class="store-name">Loja Mercado Livre</span>
+              <span class="store-bar"><span class="fill" style="--w:72%"></span></span>
+              <span class="store-count" data-counter="76">0</span>
+            </li>
+            <li class="store-row">
+              <span class="store-mark store-amazon">AZ</span>
+              <span class="store-name">Loja Amazon</span>
+              <span class="store-bar"><span class="fill" style="--w:64%"></span></span>
+              <span class="store-count" data-counter="68">0</span>
+            </li>
+            <li class="store-row">
+              <span class="store-mark store-tiktok">TT</span>
+              <span class="store-name">Loja TikTok</span>
+              <span class="store-bar"><span class="fill" style="--w:18%"></span></span>
+              <span class="store-count" data-counter="9">0</span>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     COMO FUNCIONA — Grid com reveal on scroll
+============================================================ -->
+<section class="howto" id="como-funciona" data-screen-label="05 Como Funciona">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow-tag">Como funciona</span>
+      <h2>Quatro passos. Um deles é <span class="accent">com a Distinct</span>.</h2>
+      <p>A configuração ocorre uma vez, na semana de onboarding. Depois disso, a automação simplesmente roda.</p>
+    </div>
+
+    <ol class="howto-grid">
+      <li class="howto-step reveal">
+        <span class="howto-num">01</span>
+        <div class="howto-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <h3>Você define</h3>
+        <p>Horário e recorrência. Por exemplo, a cada 30 minutos entre 06h30 e 13h30 nos dias úteis. Ou no horário que faz sentido pra sua loja.</p>
+      </li>
+
+      <li class="howto-step reveal" data-delay="100">
+        <span class="howto-num">02</span>
+        <div class="howto-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h16"/></svg>
+        </div>
+        <h3>A Distinct conecta</h3>
+        <p>Todas as suas lojas em uma única passada — Shopee, Mercado Livre, Amazon, TikTok, Nuvemshop, Shopify. Cada loja processada separadamente, no mesmo ciclo.</p>
+      </li>
+
+      <li class="howto-step reveal" data-delay="200">
+        <span class="howto-num">03</span>
+        <div class="howto-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3>A Distinct executa</h3>
+        <p>Emite as notas, programa os envios e imprime as etiquetas. Tudo agrupado por loja, produto e variação. Sem você precisar abrir o Upseller.</p>
+      </li>
+
+      <li class="howto-step reveal" data-delay="300">
+        <span class="howto-num">04</span>
+        <div class="howto-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg>
+        </div>
+        <h3>E volta sozinha</h3>
+        <p>Caiu pedido novo meia hora depois? A Distinct captura na próxima varredura, antes do corte do marketplace. Você não precisa lembrar.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================
+     DIFERENCIAIS
+============================================================ -->
+<section class="diff" id="diferenciais" data-screen-label="06 Diferenciais">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow-tag">Diferenciais</span>
+      <h2>O detalhe que ninguém faz <span class="accent">acontecer</span> sozinho.</h2>
+      <p>Outras automações imprimem etiquetas. A Distinct organiza a sua operação.</p>
+    </div>
+
+    <div class="diff-grid">
+      <!-- Featured: organização -->
+      <div class="diff-card featured reveal">
+        <span class="eyebrow">Agrupamento inteligente</span>
+        <h3>Etiquetas saem separadas por loja, produto e variação.</h3>
+        <p>A bandeja já chega organizada: cada loja em um bloco, cada produto agrupado, cada variação (cor, tamanho) etiquetada. Você pega da impressora e despacha, sem peneirar pilha de etiqueta.</p>
+        <div class="diff-visual">
+          <div class="diff-visual-row">
+            <div class="label-mini"></div>
+            <span class="badge-mini">Preto · M</span>
+          </div>
+          <div class="diff-visual-row">
+            <div class="label-mini"></div>
+            <span class="badge-mini">Preto · G</span>
+          </div>
+          <div class="diff-visual-row">
+            <div class="label-mini"></div>
+            <span class="badge-mini">Off White · M</span>
+          </div>
+          <div class="diff-visual-row">
+            <div class="label-mini"></div>
+            <span class="badge-mini">Verde · 40</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schedule -->
+      <div class="diff-card reveal" data-delay="80">
+        <span class="eyebrow">Horário sob medida</span>
+        <h3>Você define a janela.</h3>
+        <p>Programe a varredura para o horário que faz sentido pra sua loja. Manhã cedo, antes do corte, ou múltiplas execuções ao longo do dia.</p>
+        <div class="diff-sched" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span class="active"></span><span class="active"></span>
+          <span class="active"></span><span class="active"></span><span class="active"></span>
+          <span class="active"></span><span class="active"></span><span class="active"></span>
+          <span></span><span></span>
+        </div>
+      </div>
+
+      <!-- Multi-store -->
+      <div class="diff-card reveal" data-delay="160">
+        <span class="eyebrow">Multi-loja</span>
+        <h3>Todas as suas lojas em uma execução.</h3>
+        <p>Tem 1, 3 ou 12 lojas no Upseller? A Distinct conecta em todas e processa cada uma separadamente, no mesmo ciclo.</p>
+        <div style="display:flex;gap:8px;margin-top:auto;flex-wrap:wrap">
+          <img src="assets/marketplaces/shopee.svg" loading="lazy" decoding="async" style="height:18px;opacity:0.65;filter:grayscale(1) brightness(2.2)" alt="" />
+          <img src="assets/marketplaces/mercado-livre.svg" loading="lazy" decoding="async" style="height:18px;opacity:0.65;filter:grayscale(1) brightness(2.2)" alt="" />
+          <img src="assets/marketplaces/tiktok.svg" loading="lazy" decoding="async" style="height:18px;opacity:0.65;filter:grayscale(1) brightness(2.2)" alt="" />
+          <img src="assets/marketplaces/amazon.svg" loading="lazy" decoding="async" style="height:14px;opacity:0.65;filter:grayscale(1) brightness(2.2)" alt="" />
+        </div>
+      </div>
+
+      <!-- Recorrência -->
+      <div class="diff-card reveal" data-delay="160">
+        <span class="eyebrow">Recorrência ativa</span>
+        <h3>Roda de novo a cada X minutos.</h3>
+        <p>Pedido novo entrou depois do primeiro ciclo? A próxima varredura pega antes do corte do marketplace. Você não imprime duas vezes a mesma etiqueta.</p>
+      </div>
+
+      <!-- Live clock -->
+      <div class="diff-card reveal" data-delay="240">
+        <span class="eyebrow">Roda enquanto você dorme</span>
+        <h3>Agora mesmo, alguém tá usando.</h3>
+        <p>Não precisa abrir aba, não precisa estar online. A Distinct executa no servidor, você só pega da impressora.</p>
+        <div class="diff-clock">
+          <span>Hora local agora</span>
+          <span class="now" id="diffClock">06h47:12</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS — placeholder structure; TEAM: replace name/role/company/result with real customer quotes
+============================================================ -->
+<section class="testimonials" data-screen-label="06b Provas">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow-tag">Quem usa, fala</span>
+      <h2>Manhãs que <span class="accent">deixaram de existir</span>.</h2>
+      <p>Lojistas que tiraram a operação manual do dia — sem trocar de ERP, sem refazer processo.</p>
+    </div>
+
+    <div class="testimonial-grid">
+      <figure class="testimonial reveal">
+        <blockquote>
+          <p>Antes eu acordava 6h30 só pra emitir nota. Hoje eu acordo 8h e a bandeja já tá cheia. Recuperei minha manhã.</p>
+        </blockquote>
+        <figcaption>
+          <div class="t-avatar t-avatar-1" aria-hidden="true">RM</div>
+          <div>
+            <span class="t-name">Rafael Moraes</span>
+            <span class="t-role">Sócio · Casa Moraes (3 lojas)</span>
+            <span class="t-result">+87min/dia recuperados</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <figure class="testimonial reveal" data-delay="100">
+        <blockquote>
+          <p>O que mais me pegou foi a varredura voltar sozinha. Pedido caiu 13h? Saiu hoje. Eu não preciso lembrar de nada.</p>
+        </blockquote>
+        <figcaption>
+          <div class="t-avatar t-avatar-2" aria-hidden="true">JS</div>
+          <div>
+            <span class="t-name">Júlia Santos</span>
+            <span class="t-role">Operação · Atelier J (5 lojas)</span>
+            <span class="t-result">0 etiquetas perdidas em 4 meses</span>
+          </div>
+        </figcaption>
+      </figure>
+
+      <figure class="testimonial reveal" data-delay="200">
+        <blockquote>
+          <p>Instalei numa quarta, na quinta já tava rodando. O suporte responde no WhatsApp em minutos. Sério, é o mais perto de um "set and forget" que eu já vi.</p>
+        </blockquote>
+        <figcaption>
+          <div class="t-avatar t-avatar-3" aria-hidden="true">FT</div>
+          <div>
+            <span class="t-name">Felipe Tavares</span>
+            <span class="t-role">CEO · Tavares Calçados (12 lojas)</span>
+            <span class="t-result">Setup em &lt;24h</span>
+          </div>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PLANOS
+============================================================ -->
+<section class="pricing" id="planos" data-screen-label="07 Planos">
+  <div class="pricing-title-bg" aria-hidden="true">PLANOS</div>
+  <div class="container pricing-inner">
+
+    <div class="pricing-head reveal">
+      <h2>Simples. Sem surpresa.</h2>
+    </div>
+
+    <div class="trial-banner reveal" data-delay="80">
+      <span class="num">5 dias grátis</span>
+      <span class="text">Teste a automação rodando nas suas lojas, sem cartão de crédito, sem amarração.</span>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Solo -->
+      <div class="price-card reveal">
+        <div class="price-card-head">
+          <h3>Solo</h3>
+          <span class="price-card-tag">1 loja</span>
+        </div>
+        <div class="price-amount">
+          <span class="currency">R$</span>
+          <span class="value">119</span>
+          <span class="period">/mês</span>
+        </div>
+        <ul class="price-features">
+          <li class="strong">Automação completa</li>
+          <li class="strong">1 loja conectada</li>
+          <li>Lojas que vendem até 600 pedidos/mês</li>
+          <li>Impressão direto na sua impressora</li>
+          <li>Agrupamento por produto e variação</li>
+          <li>Cronograma inteligente de feriados nacionais</li>
+          <li>Suporte por WhatsApp</li>
+        </ul>
+        <a href="https://wa.me/5511990224104?text=Ol%C3%A1!%20Quero%20contratar%20o%20plano%20Solo%20da%20Distinct%20e%20come%C3%A7ar%20pelos%205%20dias%20gr%C3%A1tis." class="btn btn-ghost" target="_blank" rel="noopener">Eu quero esse</a>
+      </div>
+
+      <!-- Pro (featured) -->
+      <div class="price-card featured reveal" data-delay="80">
+        <div class="price-card-head">
+          <h3>Pro</h3>
+          <span class="price-card-tag">até 3 lojas</span>
+        </div>
+        <div class="price-amount">
+          <span class="currency">R$</span>
+          <span class="value">259</span>
+          <span class="period">/mês</span>
+        </div>
+        <ul class="price-features">
+          <li class="strong">Automação completa</li>
+          <li class="strong">3 lojas conectadas</li>
+          <li>Lojas que vendem até 2.000 pedidos/mês</li>
+          <li>Impressão direto na sua impressora</li>
+          <li>Agrupamento por produto e variação</li>
+          <li>Cronograma inteligente de feriados nacionais</li>
+          <li>Suporte prioritário</li>
+        </ul>
+        <a href="https://wa.me/5511990224104?text=Ol%C3%A1!%20Quero%20contratar%20o%20plano%20Pro%20da%20Distinct%20e%20come%C3%A7ar%20pelos%205%20dias%20gr%C3%A1tis." class="btn btn-primary" target="_blank" rel="noopener">Eu quero esse</a>
+      </div>
+
+      <!-- Business -->
+      <div class="price-card reveal" data-delay="160">
+        <div class="price-card-head">
+          <h3>Business</h3>
+          <span class="price-card-tag">até 5 lojas</span>
+        </div>
+        <div class="price-amount">
+          <span class="currency">R$</span>
+          <span class="value">399</span>
+          <span class="period">/mês</span>
+        </div>
+        <ul class="price-features">
+          <li class="strong">Automação completa</li>
+          <li class="strong">5 lojas conectadas</li>
+          <li>Sem limite de pedidos no mês</li>
+          <li>Impressão direto na sua impressora</li>
+          <li>Agrupamento por produto e variação</li>
+          <li>Roda no fim de semana</li>
+          <li>Cronograma inteligente de feriados nacionais</li>
+          <li>Suporte dedicado</li>
+        </ul>
+        <a href="https://wa.me/5511990224104?text=Ol%C3%A1!%20Quero%20contratar%20o%20plano%20Business%20da%20Distinct%20e%20come%C3%A7ar%20pelos%205%20dias%20gr%C3%A1tis." class="btn btn-ghost" target="_blank" rel="noopener">Eu quero esse</a>
+      </div>
+
+      <!-- Unlimited -->
+      <div class="price-card reveal" data-delay="240">
+        <div class="price-card-head">
+          <h3>Unlimited</h3>
+          <span class="price-card-tag">conecte quantas lojas quiser</span>
+        </div>
+        <div class="price-amount">
+          <span class="currency">R$</span>
+          <span class="value">599</span>
+          <span class="period">/mês</span>
+        </div>
+        <ul class="price-features">
+          <li class="strong">Automação completa</li>
+          <li class="strong">lojas ilimitadas</li>
+          <li>Sem limite de pedidos no mês</li>
+          <li>Impressão direto na sua impressora</li>
+          <li>Agrupamento por produto e variação</li>
+          <li>Roda no fim de semana</li>
+          <li>Cronograma inteligente de feriados nacionais</li>
+          <li>Funcionalidades novas de acordo com a sua necessidade</li>
+          <li>Suporte dedicado</li>
+        </ul>
+        <a href="https://wa.me/5511990224104?text=Ol%C3%A1!%20Quero%20contratar%20o%20plano%20Unlimited%20da%20Distinct%20e%20come%C3%A7ar%20pelos%205%20dias%20gr%C3%A1tis." class="btn btn-ghost" target="_blank" rel="noopener">Eu quero esse</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section class="faq" id="faq" data-screen-label="08 FAQ">
+  <div class="container faq-inner">
+    <header class="faq-head reveal">
+      <span class="eyebrow-tag">Perguntas frequentes</span>
+      <h2>Antes de você perguntar.</h2>
+      <p>Não achou o que precisava? Manda no WhatsApp — a gente responde em minutos.</p>
+    </header>
+
+    <ul class="faq-list reveal" data-delay="80">
+      <li class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span>Como é o setup? Preciso trocar de ERP?</span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a">
+          <p>Não troca nada. A Distinct roda em cima do seu Upseller atual — a gente conecta nas suas lojas, configura horário e recorrência, e em até 24h tá rodando. Você continua usando o Upseller como sempre usou; só não precisa mais abrir ele toda manhã.</p>
+        </div>
+      </li>
+
+      <li class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span>E se aparecer pedido depois que o ciclo já rodou?</span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a">
+          <p>A Distinct continua varrendo. Cada loja tem sua recorrência (por exemplo, a cada 30min entre 06h30 e 13h30), então pedido novo é capturado na próxima passada — antes do corte do marketplace. Você não precisa lembrar de "rodar de novo".</p>
+        </div>
+      </li>
+
+      <li class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span>O período de teste tem cobrança?</span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a">
+          <p>Não. 5 dias grátis, sem cartão. No fim do teste você decide se fica ou não — sem cobrança automática, sem pegadinha. Se decidir continuar, a gente acerta o plano e segue.</p>
+        </div>
+      </li>
+
+      <li class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span>Posso cancelar a qualquer momento?</span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a">
+          <p>Sim, e sem multa. Cancelamento é por WhatsApp — sem formulário, sem ligação de retenção. A automação para no mesmo dia.</p>
+        </div>
+      </li>
+
+      <li class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span>Como funciona o suporte? Vou ficar esperando 3 dias por e-mail?</span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a">
+          <p>WhatsApp direto, das 8h às 20h, todos os dias úteis. Tempo médio de primeira resposta: 8 minutos. Quem te atende é gente que entende da operação — não bot, não SAC nível 1.</p>
+        </div>
+      </li>
+
+      <li class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          <span>Quais marketplaces vocês suportam?</span>
+          <span class="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a">
+          <p>Shopee, Mercado Livre, Amazon, TikTok Shop, Nuvemshop e Shopify — todas com integração nativa via Upseller. Se você tem outro canal, fala com a gente: o time avalia caso a caso e em geral conseguimos integrar em 1-2 semanas.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA FINAL
+============================================================ -->
+<section class="final-cta" data-screen-label="09 CTA Final">
+  <div class="final-cta-bg"></div>
+  <div class="final-cta-logo" aria-hidden="true"></div>
+  <div class="container final-cta-inner">
+    <span class="eyebrow-tag reveal">5 dias. Sem cartão.</span>
+    <h2 class="reveal" data-delay="80">Amanhã de manhã, você <span class="accent">não precisa mexer no Upseller</span>.</h2>
+    <p class="reveal" data-delay="160">Setup em 24h. Roda no mesmo dia. Se não economizar 60min do seu dia já na primeira semana, cancela sem pagar nada.</p>
+    <a href="https://wa.me/5511990224104?text=Ol%C3%A1!%20Quero%20testar%20a%20automa%C3%A7%C3%A3o%20da%20Distinct%20por%205%20dias." class="btn btn-primary btn-arrow reveal" data-delay="240" target="_blank" rel="noopener">Começar teste grátis no WhatsApp</a>
+    <span class="final-cta-trust reveal" data-delay="320">300+ lojistas já usam · 99,98% uptime · resposta em 8min</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="foot">
+  <div class="container foot-cols">
+    <div class="foot-col foot-col-brand">
+      <a href="#top" class="foot-brand">
+        <img src="assets/logo-1.svg" alt="" />
+        <div class="foot-brand-text">
+          Distinct Services
+          <small>menos esforço, mais evolução.</small>
+        </div>
+      </a>
+      <p class="foot-pitch">Automação operacional para lojistas multi-marketplace. NF, envio e etiqueta rodando sozinhos.</p>
+    </div>
+
+    <nav class="foot-col" aria-label="Produto">
+      <h4>Produto</h4>
+      <ul>
+        <li><a href="#fluxo">Como funciona</a></li>
+        <li><a href="#diferenciais">Diferenciais</a></li>
+        <li><a href="#planos">Planos</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <nav class="foot-col" aria-label="Empresa">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="https://wa.me/5511990224104">Falar com vendas</a></li>
+        <li><a href="https://wa.me/5511990224104">Suporte WhatsApp</a></li>
+        <li><a href="mailto:contato@distinctservices.com.br">contato@distinctservices.com.br</a></li>
+      </ul>
+    </nav>
+
+    <nav class="foot-col" aria-label="Legal">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Termos de uso</a></li>
+        <li><a href="#">Política de privacidade</a></li>
+        <li><a href="#">LGPD</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container foot-base">
+    <span>© 2026 Distinct Services · CNPJ disponível sob solicitação</span>
+    <a href="https://wa.me/5511990224104">+55 11 99022-4104</a>
+  </div>
+</footer>
+
+<script>
+  // Build marquee track — 3 identical copies so the -33.333% loop is always seamless
+  (function() {
+    const items = [
+      { src: 'assets/marketplaces/shopee.svg',        alt: 'Shopee' },
+      { src: 'assets/marketplaces/mercado-livre.svg', alt: 'Mercado Livre' },
+      { src: 'assets/marketplaces/amazon.svg',        alt: 'Amazon' },
+      { src: 'assets/marketplaces/tiktok.svg',        alt: 'TikTok Shop' },
+      { src: 'assets/marketplaces/nuvemshop.svg',     alt: 'Nuvemshop' },
+      { src: 'assets/marketplaces/shopify.svg',       alt: 'Shopify' },
+    ];
+    const track = document.getElementById('marqueeTrack');
+    const html = items.map(it =>
+      `<div class="marquee-item"><img src="${it.src}" alt="${it.alt}" loading="lazy"/></div>`
+    ).join('');
+    track.innerHTML = html + html + html;
+  })();
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="scripts/site.js"></script>
+
+</body>
+</html>

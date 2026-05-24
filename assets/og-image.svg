@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Distinct Services">
+  <!-- Background -->
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="55%" r="55%">
+      <stop offset="0%"   stop-color="#73F3A4" stop-opacity="0.18"/>
+      <stop offset="50%"  stop-color="#73F3A4" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#73F3A4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gradHeading" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#73F3A4"/>
+      <stop offset="100%" stop-color="#4FE08D"/>
+    </linearGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#73F3A4" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+    <mask id="gridMask">
+      <ellipse cx="600" cy="345" rx="600" ry="320" fill="white"/>
+    </mask>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0F0F0F"/>
+  <rect width="1200" height="630" fill="url(#grid)" mask="url(#gridMask)"/>
+  <ellipse cx="600" cy="345" rx="700" ry="400" fill="url(#bgGlow)"/>
+
+  <!-- Top-left: brand mark + name -->
+  <g transform="translate(72, 72)">
+    <circle cx="22" cy="22" r="22" fill="#73F3A4" fill-opacity="0.10" stroke="#73F3A4" stroke-opacity="0.4"/>
+    <!-- Stylized "iS" mark approximated with letters -->
+    <text x="22" y="30" text-anchor="middle"
+          font-family="Montserrat, sans-serif" font-weight="700" font-size="22" fill="#73F3A4">D</text>
+    <text x="64" y="29"
+          font-family="Montserrat, sans-serif" font-weight="700" font-size="22"
+          letter-spacing="2" fill="#FAFAFA">DISTINCT</text>
+  </g>
+
+  <!-- Eyebrow tag (top-center pill) -->
+  <g transform="translate(600, 200)">
+    <rect x="-185" y="-22" width="370" height="36" rx="18"
+          fill="#73F3A4" fill-opacity="0.08" stroke="#73F3A4" stroke-opacity="0.35"/>
+    <circle cx="-160" cy="-4" r="3.5" fill="#73F3A4"/>
+    <text x="-145" y="2" font-family="Inter, sans-serif" font-weight="500"
+          font-size="13" letter-spacing="2" fill="#73F3A4">
+      PARA LOJISTAS MULTI-MARKETPLACE
+    </text>
+  </g>
+
+  <!-- Headline -->
+  <g transform="translate(600, 310)" text-anchor="middle">
+    <text font-family="Montserrat, sans-serif" font-weight="700"
+          font-size="58" fill="#FAFAFA" letter-spacing="-2">
+      Seus pedidos já estão prontos.
+    </text>
+    <text y="74" font-family="Montserrat, sans-serif" font-weight="700"
+          font-size="58" fill="url(#gradHeading)" letter-spacing="-2">
+      E você ainda nem acordou.
+    </text>
+  </g>
+
+  <!-- Sub -->
+  <g transform="translate(600, 470)" text-anchor="middle">
+    <text font-family="Inter, sans-serif" font-weight="400" font-size="22"
+          fill="#FAFAFA" fill-opacity="0.65">
+      Emite a nota, programa o envio e imprime a etiqueta —
+    </text>
+    <text y="32" font-family="Inter, sans-serif" font-weight="400" font-size="22"
+          fill="#FAFAFA" fill-opacity="0.65">
+      em todas as suas lojas, sem você abrir o sistema.
+    </text>
+  </g>
+
+  <!-- Bottom: trust micro-line -->
+  <g transform="translate(600, 580)" text-anchor="middle">
+    <text font-family="JetBrains Mono, monospace" font-weight="500" font-size="13"
+          fill="#73F3A4" letter-spacing="2">
+      300+ LOJISTAS · 5 DIAS GRÁTIS · SEM CARTÃO
+    </text>
+  </g>
+
+  <!-- Decorative corner accents -->
+  <g stroke="#73F3A4" stroke-opacity="0.4" stroke-width="1.5" fill="none">
+    <path d="M 40 590 L 40 600 L 50 600"/>
+    <path d="M 1160 40 L 1160 30 L 1150 30"/>
+  </g>
+</svg>
