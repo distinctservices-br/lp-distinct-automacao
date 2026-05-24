@@ -261,22 +261,27 @@ gsap.utils.toArray('.reveal').forEach(el => {
     ML:      { cls: 'mp-ml' },
     Amazon:  { cls: 'mp-amazon' },
     TikTok:  { cls: 'mp-tiktok' },
-    Nuvem:   { cls: 'mp-nuvem' },
-    Shopify: { cls: 'mp-shopify' },
   };
 
-  const EVENTS = [
-    { mp: 'Shopee',  action: 'NF emitida',        id: '#48291' },
-    { mp: 'ML',      action: 'Envio programado',  id: '#48290' },
-    { mp: 'Amazon',  action: 'Etiqueta impressa', id: '#48289' },
-    { mp: 'TikTok',  action: 'NF emitida',        id: '#48288' },
-    { mp: 'Nuvem',   action: 'Envio programado',  id: '#48287' },
-    { mp: 'Shopify', action: 'Etiqueta impressa', id: '#48286' },
-    { mp: 'Shopee',  action: 'Etiqueta impressa', id: '#48285' },
-    { mp: 'ML',      action: 'NF emitida',        id: '#48284' },
-    { mp: 'Amazon',  action: 'Envio programado',  id: '#48283' },
-    { mp: 'TikTok',  action: 'Etiqueta impressa', id: '#48282' },
+  // Fluxo: para cada loja, executa a sequência completa em ordem
+  // (busca → emite NF → programa envio → imprime etiqueta) antes de
+  // partir pra próxima loja. Espelha como a Distinct opera de verdade.
+  const STORES   = ['Shopee', 'ML', 'Amazon', 'TikTok'];
+  const ACTIONS  = [
+    'Pedidos capturados',
+    'NF emitida',
+    'Envio programado',
+    'Etiqueta impressa',
   ];
+
+  // Build sequential event list: store 1 (all 4 actions) → store 2 → ...
+  const EVENTS = [];
+  let baseId = 48282;
+  STORES.forEach(mp => {
+    ACTIONS.forEach(action => {
+      EVENTS.push({ mp, action, id: '#' + (baseId++) });
+    });
+  });
 
   const MAX_FEED = 5;
   let seq = 0;

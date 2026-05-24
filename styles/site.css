@@ -879,7 +879,7 @@ section {
   color: var(--color-muted-text-light);
 }
 
-/* Activity feed */
+/* Activity feed — fixed height prevents reflow on insert/remove */
 .feed-list {
   list-style: none;
   display: flex;
@@ -887,7 +887,9 @@ section {
   gap: 8px;
   margin: 0;
   padding: 0;
-  min-height: 280px;
+  height: 290px;
+  overflow: hidden;
+  position: relative;
 }
 .feed-item {
   display: flex;
@@ -1691,7 +1693,13 @@ section {
   align-items: center;
   margin-top: auto;
 }
-.testimonial figcaption > div { display: flex; flex-direction: column; gap: 2px; }
+.testimonial figcaption .t-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-height: 44px;        /* matches avatar height for perfect vertical centering */
+}
 .t-avatar {
   flex-shrink: 0;
   width: 44px; height: 44px;
@@ -1712,19 +1720,14 @@ section {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 14px;
+  line-height: 1.2;
   color: var(--color-white-1);
 }
 .t-role {
   font-family: var(--font-body);
   font-size: 12px;
+  line-height: 1.2;
   color: var(--color-muted-text);
-}
-.t-result {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--color-primary);
-  margin-top: 6px;
 }
 
 @media (max-width: 980px) {
