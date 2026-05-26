@@ -1616,6 +1616,7 @@ section {
   letter-spacing: -0.04em;
   line-height: 1;
   color: var(--color-white-1);
+  white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 .trust-num small {
