@@ -1255,18 +1255,13 @@ section {
 .pricing-title-bg {
   position: absolute;
   inset-inline: 0;
-  top: 80px;
-  text-align: center;
+  top: 60px;
   pointer-events: none;
-  font-family: "Montserrat", system-ui, sans-serif;
-  font-weight: 800;
-  font-size: clamp(100px, 18vw, 220px);
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(115,243,164,0.22);
   z-index: 0;
   user-select: none;
+  width: 100%;
+  height: auto;
+  overflow: visible;
 }
 
 .pricing-inner { position: relative; z-index: 1; }
@@ -2026,7 +2021,7 @@ section {
   .problem-item h4 { font-size: 15px; }
   .problem-visual { padding: 24px; }
   .console { margin-top: 36px; }
-  .pricing-title-bg { font-size: clamp(64px, 18vw, 120px); top: 60px; }
+  .pricing-title-bg { top: 40px; }
   .pricing-head { padding-top: 30px; margin-bottom: 36px; }
   .price-card { padding: 26px 22px; }
   .final-cta { padding-block: 90px; }
