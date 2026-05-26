@@ -1264,7 +1264,7 @@ section {
   line-height: 1;
   letter-spacing: -0.04em;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(115,243,164,0.18);
+  -webkit-text-stroke: 1.5px rgba(115,243,164,0.22);
   z-index: 0;
   user-select: none;
 }
