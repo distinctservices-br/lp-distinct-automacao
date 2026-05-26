@@ -89,7 +89,7 @@
    * Body:    Inter 18pt optical size
    * Mono:    JetBrains Mono
    * -------------------------------------------------------- */
-  --font-display: "Montserrat Alternates", "Montserrat", system-ui, sans-serif;
+  --font-display: "Montserrat", system-ui, sans-serif;
   --font-body:    "Inter", system-ui, sans-serif;
   --font-body-lg: "Inter Large", "Inter", system-ui, sans-serif;
   --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
