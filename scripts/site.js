@@ -192,7 +192,20 @@ gsap.utils.toArray('.reveal').forEach(el => {
     const idx = it.querySelector('.problem-index');
     if (idx) gsap.set(idx, { opacity: 0 });
   });
-  if (visual) gsap.set(visual, { opacity: 0, y: 30, scale: 0.94 });
+  // visual card + its inner pieces
+  const vLabel = visual && visual.querySelector('.problem-visual-label');
+  const vNumWrap = visual && visual.querySelector('.problem-visual-number');
+  const vCount = visual && visual.querySelector('[data-pv-count]');
+  const vBars = visual ? gsap.utils.toArray(visual.querySelectorAll('.problem-visual-bars span')) : [];
+  const vFoot = visual && visual.querySelector('.problem-visual-foot');
+
+  if (visual) {
+    gsap.set(visual, { opacity: 0, y: 30, scale: 0.94 });
+    if (vLabel) gsap.set(vLabel, { opacity: 0, y: 10 });
+    if (vNumWrap) gsap.set(vNumWrap, { opacity: 0, y: 16 });
+    if (vBars.length) gsap.set(vBars, { scaleY: 0 });
+    if (vFoot) gsap.set(vFoot, { opacity: 0, y: 10 });
+  }
 
   ScrollTrigger.create({
     trigger: list,
@@ -208,12 +221,26 @@ gsap.utils.toArray('.reveal').forEach(el => {
         if (idx) tl.to(idx, { opacity: 1, duration: 0.4 }, i * 0.18 + 0.05);
       });
 
-      // 2) the big "90min" card animates in last, with emphasis
+      // 2) the big card animates in last, then its inner pieces play
       if (visual) {
-        tl.to(visual, {
-          opacity: 1, y: 0, scale: 1,
-          duration: 0.8, ease: 'back.out(1.6)',
-        }, '>-0.1');
+        const cardAt = '>-0.1';
+        tl.to(visual, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'back.out(1.5)' }, cardAt);
+        if (vLabel) tl.to(vLabel, { opacity: 1, y: 0, duration: 0.4 }, '>-0.35');
+        if (vNumWrap) {
+          tl.to(vNumWrap, { opacity: 1, y: 0, duration: 0.5 }, '<+0.05');
+          if (vCount) {
+            const target = parseInt(vCount.dataset.pvCount, 10);
+            const obj = { v: 0 };
+            tl.to(obj, {
+              v: target, duration: 0.9, ease: 'power2.out',
+              onUpdate: () => { vCount.textContent = Math.round(obj.v); },
+            }, '<');
+          }
+        }
+        if (vBars.length) {
+          tl.to(vBars, { scaleY: 1, duration: 0.5, ease: 'power2.out', stagger: 0.04 }, '<+0.1');
+        }
+        if (vFoot) tl.to(vFoot, { opacity: 1, y: 0, duration: 0.45 }, '<+0.2');
       }
     },
   });
@@ -255,19 +282,17 @@ gsap.utils.toArray('.reveal').forEach(el => {
   mm.add('(min-width: 901px)', () => {
     const GAP = 20;
 
-    // Compute the centered-row layout (scaled to fit the deck width)
-    function layout() {
+    // Cached layout — recomputed only on refresh, not every frame
+    let L = { scale: 1, x: cards.map(() => 0) };
+    function computeLayout() {
       const cardW = cards[0].offsetWidth || 360;
       const avail = Math.min(deck.clientWidth, 1400) - 16;
       const slot = (avail - GAP * (n - 1)) / n;
       const scale = Math.min(1, slot / cardW);
-      const visW = cardW * scale;
-      const step = visW + GAP;
-      return {
-        scale,
-        x: cards.map((_, i) => (i - (n - 1) / 2) * step),
-      };
+      const step = cardW * scale + GAP;
+      L = { scale, x: cards.map((_, i) => (i - (n - 1) / 2) * step) };
     }
+    computeLayout();
 
     // Initial stacked state — card 0 on top
     cards.forEach((card, i) => {
@@ -285,24 +310,25 @@ gsap.utils.toArray('.reveal').forEach(el => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: stage,
-        start: 'top top',
-        end: () => '+=' + Math.round(window.innerHeight * 2.2),
+        start: 'center center',
+        end: () => '+=' + Math.round(window.innerHeight * 1.5),
         pin: true,
-        scrub: 1,
+        scrub: 0.6,
         invalidateOnRefresh: true,
         anticipatePin: 1,
+        onRefresh: computeLayout,
       },
     });
 
     cards.forEach((card, i) => {
       tl.to(card, {
-        x: () => layout().x[i],
+        x: () => L.x[i],
         y: 0,
         rotation: 0,
-        scale: () => layout().scale,
+        scale: () => L.scale,
         ease: 'power2.inOut',
         duration: 1,
-      }, i * 0.9);
+      }, i * 0.85);
     });
 
     return () => {

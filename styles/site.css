@@ -814,19 +814,20 @@ section {
   color: var(--color-muted-text);
 }
 
-/* Problem visual: clock + lost minutes */
+/* Problem visual: lost-minutes card */
 .problem-visual {
   position: relative;
   aspect-ratio: 1;
-  max-width: 480px;
+  max-width: 460px;
   margin-inline: auto;
   border: 1px solid rgba(255,95,87,0.22);
   border-radius: var(--radius-xl);
   background: linear-gradient(180deg, var(--color-black-2) 0%, var(--color-black-1) 100%);
-  padding: 32px;
+  padding: 36px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 20px;
   overflow: hidden;
 }
 .problem-visual::before {
@@ -843,23 +844,44 @@ section {
   font-size: 11px;
   letter-spacing: 0.18em;
   color: var(--color-muted-text-light);
-}
-.problem-visual-number {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(80px, 14vw, 140px);
-  line-height: 0.9;
-  letter-spacing: -0.05em;
-  color: var(--color-white-1);
   position: relative;
   z-index: 1;
 }
+.problem-visual-mid {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.problem-visual-number {
+  font-family: var(--font-nums);
+  font-weight: 700;
+  font-size: clamp(84px, 13vw, 128px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--color-white-1);
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
 .problem-visual-number .unit {
-  font-size: 0.32em;
+  font-size: 0.3em;
   font-weight: 500;
   color: var(--color-muted-text);
-  margin-left: 8px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
+}
+.problem-visual-bars {
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+  height: 64px;
+}
+.problem-visual-bars span {
+  flex: 1;
+  background: linear-gradient(180deg, #FF6B6B 0%, rgba(255,107,107,0.25) 100%);
+  border-radius: 3px 3px 0 0;
+  transform-origin: bottom center;
 }
 .problem-visual-foot {
   position: relative;
@@ -870,20 +892,7 @@ section {
   line-height: 1.6;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-.problem-visual-bars {
-  display: flex;
-  gap: 4px;
-  align-items: flex-end;
-  height: 60px;
-  margin-top: 8px;
-}
-.problem-visual-bars span {
-  flex: 1;
-  background: linear-gradient(180deg, #FF6B6B 0%, rgba(255,107,107,0.20) 100%);
-  border-radius: 2px 2px 0 0;
-  opacity: 0.75;
+  gap: 10px;
 }
 
 /* ===== FLOW (isometric 3D scene) ============================ */
@@ -1238,13 +1247,15 @@ section {
 .howto {
   background: var(--color-black-1);
   position: relative;
+  padding-bottom: clamp(40px, 5vw, 70px);
 }
 .howto .section-head { margin-bottom: 0; }
 
 /* Stage gets pinned; deck holds the absolutely-stacked cards */
 .howto-stage {
   position: relative;
-  min-height: 78vh;
+  min-height: 56vh;
+  margin-top: 28px;
   display: grid;
   place-items: center;
 }
@@ -1253,7 +1264,7 @@ section {
   list-style: none;
   margin: 0; padding: 0;
   width: 100%;
-  height: clamp(300px, 42vh, 380px);
+  height: clamp(280px, 36vh, 340px);
 }
 .howto-card {
   position: absolute;
