@@ -275,8 +275,8 @@ section {
 
 .hero-sub {
   font-family: var(--font-body-lg);
-  font-size: clamp(16px, 1.6vw, 19px);
-  line-height: 1.65;
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.6;
   color: var(--color-muted-text);
   max-width: 46ch;
 }
@@ -605,8 +605,8 @@ section {
   }
 }
 @media (max-width: 560px) {
-  .hero { padding-top: 92px; padding-bottom: 54px; min-height: auto; }
-  .hero-inner { gap: 34px; }
+  .hero { padding-top: 92px; padding-bottom: 64px; min-height: auto; }
+  .hero-inner { gap: 0; }
   .hero-content { gap: 20px; }
   .hero-eyebrow.kicker {
     font-size: 10px;
@@ -614,10 +614,10 @@ section {
     padding-bottom: 9px;
   }
   .hero-heading { font-size: clamp(30px, 8.6vw, 42px); line-height: 1.05; }
-  .hero-sub { font-size: 15px; line-height: 1.6; max-width: 36ch; }
+  .hero-sub { font-size: 14px; line-height: 1.6; max-width: 34ch; }
   .hero-trust-line { gap: 12px 16px; font-size: 12px; }
-  .hero-result-card { padding: 22px 20px; max-width: 100%; }
-  .hrc-list li { font-size: 13.5px; }
+  /* The animated result card is decorative — drop it on phones */
+  .hero-right { display: none; }
 }
 
 /* ===== COMPATIBILITY (dual marquee) ========================= */
