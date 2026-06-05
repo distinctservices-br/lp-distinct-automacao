@@ -183,89 +183,45 @@ section {
   overflow: hidden;
 }
 
-/* ── Animated aurora background ──────────────────────────── */
-.hero-aurora {
+/* ── Subtle brand-mark watermark ─────────────────────────── *
+ * The iS mark painted very faintly across the whole hero as a
+ * delicate texture detail. Uses mask so we control the tint. */
+.hero-mark {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  overflow: hidden;
-}
-.aurora-blob {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.6;
-  will-change: transform;
-}
-/* Soft radial gradients are already blurry — no costly filter:blur needed */
-.aurora-blob--1 {
-  width: 48vw; height: 48vw;
-  max-width: 760px; max-height: 760px;
-  left: 4%; top: 4%;
-  background: radial-gradient(circle, rgba(115,243,164,0.28) 0%, transparent 62%);
-  animation: auroraDrift1 16s ease-in-out infinite;
-}
-.aurora-blob--2 {
-  width: 40vw; height: 40vw;
-  max-width: 640px; max-height: 640px;
-  right: 0%; top: 24%;
-  background: radial-gradient(circle, rgba(79,189,137,0.22) 0%, transparent 62%);
-  animation: auroraDrift2 19s ease-in-out infinite;
-}
-.aurora-blob--3 {
-  width: 34vw; height: 34vw;
-  max-width: 540px; max-height: 540px;
-  left: 30%; bottom: 0%;
-  background: radial-gradient(circle, rgba(115,243,164,0.16) 0%, transparent 62%);
-  animation: auroraDrift3 23s ease-in-out infinite;
-}
-.aurora-blob--4 {
-  width: 28vw; height: 28vw;
-  max-width: 440px; max-height: 440px;
-  right: 22%; bottom: 10%;
-  background: radial-gradient(circle, rgba(115,243,164,0.13) 0%, transparent 62%);
-  animation: auroraDrift4 27s ease-in-out infinite;
-}
-@keyframes auroraDrift1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%      { transform: translate(12%, 8%) scale(1.18); }
-  66%      { transform: translate(6%, 14%) scale(1.05); }
-}
-@keyframes auroraDrift2 {
-  0%, 100% { transform: translate(0, 0) scale(1.1); }
-  33%      { transform: translate(-14%, 10%) scale(0.92); }
-  66%      { transform: translate(-6%, -8%) scale(1.12); }
-}
-@keyframes auroraDrift3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(10%, -12%) scale(1.22); }
-}
-@keyframes auroraDrift4 {
-  0%, 100% { transform: translate(0, 0) scale(1.05); }
-  50%      { transform: translate(-12%, -10%) scale(0.9); }
+  -webkit-mask: url("../assets/iS-mark.svg") no-repeat center / clamp(540px, 70vw, 1100px);
+          mask: url("../assets/iS-mark.svg") no-repeat center / clamp(540px, 70vw, 1100px);
+  background: rgba(227, 255, 233, 0.035);
 }
 
-/* Subtle dot-grid overlay */
-.hero-bg-grid {
+/* ── Seam bloom into the section below ───────────────────── *
+ * Green glow blooming upward from the hero's bottom edge,
+ * echoing the reference's gradient at the section boundary. */
+.hero-seam {
   position: absolute;
-  inset: 0;
+  left: 0; right: 0; bottom: 0;
+  height: clamp(260px, 38vh, 460px);
+  z-index: 1;
   pointer-events: none;
-  z-index: 0;
-  background-image:
-    radial-gradient(circle, rgba(115,243,164,0.14) 1px, transparent 1px);
-  background-size: 38px 38px;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 0%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 0%, transparent 100%);
-  opacity: 0.4;
+  background:
+    radial-gradient(ellipse 65% 100% at 50% 100%,
+      rgba(115,243,164,0.30) 0%,
+      rgba(115,243,164,0.12) 28%,
+      rgba(115,243,164,0.03) 52%,
+      transparent 75%);
 }
-
-/* Bottom fade to blend into next section */
-.hero-bg-fade {
+/* Bright core line at the exact seam */
+.hero-seam::after {
+  content: "";
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: linear-gradient(180deg, transparent 60%, var(--color-black-hero) 100%);
+  left: 50%; bottom: 0;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(115,243,164,0.6), transparent);
+  box-shadow: 0 0 18px 2px rgba(115,243,164,0.35);
 }
 
 /* ── Two-column split layout ─────────────────────────────── */
@@ -314,6 +270,7 @@ section {
 }
 .hero-heading .hl-in {
   display: inline-block;
+  white-space: nowrap; /* keep each defined line intact (e.g. "já estão prontos.") */
   /* pre-hidden: revealed via GSAP clip-path */
   clip-path: inset(-8% 0 110% 0);
   will-change: clip-path;
