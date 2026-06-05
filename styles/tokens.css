@@ -54,8 +54,10 @@
   --color-secondary:      #79BD89;   /* hover, secondary icons */
 
   --color-black-1:        #0F0F0F;   /* page background */
-  --color-black-2:        #1E1E1E;   /* cards, elevated surfaces */
-  --color-black-deeper:   #080808;   /* terminal background */
+  --color-black-2:        #1A1A1A;   /* cards, elevated surfaces */
+  --color-black-deeper:   #080808;   /* hero bg + deep sections */
+  --color-black-hero:     #080808;   /* hero section bg */
+  --color-section-alt:    #0C110E;   /* green-tinted alt section bg */
 
   --color-white-1:        #FAFAFA;   /* primary text on dark */
   --color-white-support:  #E3FFE9;   /* text on green */
@@ -84,15 +86,17 @@
   --color-tl-green:  #28C840;
 
   /* --------------------------------------------------------
-   * Typography — families
-   * Display: Montserrat Alternates (distinctive letterforms, brand-defining)
-   * Body:    Inter 18pt optical size
-   * Mono:    JetBrains Mono
+   * Typography — 3-font strategy (v2)
+   * Display: Montserrat (all titles, headings, CTAs, nav)
+   * Body/Numbers: Inter 18pt optical size (body copy + all numerals)
+   * Special: "Montserrat Alternates" applied directly — one phrase only
+   * Mono: JetBrains Mono (terminal, badges)
    * -------------------------------------------------------- */
   --font-display: "Montserrat", system-ui, sans-serif;
   --font-body:    "Inter", system-ui, sans-serif;
   --font-body-lg: "Inter Large", "Inter", system-ui, sans-serif;
   --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-nums:    "Inter", system-ui, sans-serif; /* explicit token for numeric contexts */
 
   /* Fluid type scale */
   --text-display: clamp(56px, 10vw, 96px);

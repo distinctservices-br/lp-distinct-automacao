@@ -39,11 +39,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
 <!-- Preload critical above-the-fold fonts -->
-<link rel="preload" href="styles/fonts/Montserrat-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin />
-<link rel="preload" href="styles/fonts/Inter_18pt-Regular.ttf"           as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="styles/fonts/Montserrat-VariableFont_wght.ttf"   as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="styles/fonts/Inter_18pt-Regular.ttf"             as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="styles/fonts/MontserratAlternates-Black.ttf"     as="font" type="font/ttf" crossorigin />
 
-<!-- DNS prefetch + preconnect for GSAP CDN -->
+<!-- DNS prefetch + preconnect for CDNs -->
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 
 <!-- Structured data: Organization + SoftwareApplication -->
 <script type="application/ld+json">
@@ -107,29 +109,64 @@
      HERO
 ============================================================ -->
 <section class="hero" id="top" data-screen-label="01 Hero">
-  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
-  <div class="hero-bg"></div>
+  <div class="hero-bg-glow" aria-hidden="true"></div>
+  <div class="hero-bg-grid" aria-hidden="true"></div>
 
   <div class="container hero-inner">
-    <span class="eyebrow-tag hero-eyebrow">Para lojistas multi-marketplace</span>
 
-    <h1 class="hero-heading" aria-label="Seus pedidos já estão prontos. E você ainda nem acordou.">
-      <span class="hero-line"><span class="hero-line-inner">Seus pedidos</span></span>
-      <span class="hero-line"><span class="hero-line-inner">já estão prontos.</span></span>
-      <span class="hero-line hero-line--grad"><span class="hero-line-inner">E você ainda nem acordou.</span></span>
-    </h1>
+    <!-- ── Left: text content ─────────────────────────────── -->
+    <div class="hero-content">
+      <p class="hero-eyebrow">Para lojistas multi-marketplace</p>
 
-    <p class="hero-sub">
-      A Distinct emite a nota, programa o envio e imprime a etiqueta de todas as suas lojas. No horário que você definir, sem você abrir o sistema.
-    </p>
+      <h1 class="hero-heading js-hero-heading">
+        Seus pedidos já estão prontos. E você ainda nem acordou.
+      </h1>
 
-    <div class="hero-cta-row">
-      <a href="https://wa.me/5511990224104?text=Ol%C3%A1!%20Quero%20testar%20a%20automa%C3%A7%C3%A3o%20da%20Distinct%20por%205%20dias." class="btn btn-primary btn-arrow" target="_blank" rel="noopener">Testar 5 dias grátis</a>
-      <a href="#fluxo" class="btn btn-ghost">Ver demo em 60s</a>
+      <p class="hero-sub">
+        A Distinct emite a nota, programa o envio e imprime a etiqueta de todas as suas lojas. No horário que você definir, sem você abrir o sistema.
+      </p>
+
+      <div class="hero-cta-row">
+        <a href="https://wa.me/5511990224104?text=Ol%C3%A1!%20Quero%20testar%20a%20automa%C3%A7%C3%A3o%20da%20Distinct%20por%205%20dias."
+           class="btn btn-primary btn-arrow js-magnetic" target="_blank" rel="noopener">Testar 5 dias grátis</a>
+        <a href="#fluxo" class="btn btn-ghost">Ver demo em 60s</a>
+      </div>
+    </div>
+
+    <!-- ── Right: automation result card ─────────────────── -->
+    <div class="hero-right" aria-hidden="true">
+      <div class="hero-result-card">
+        <div class="hrc-head">
+          <span class="hrc-dot"></span>
+          <span class="hrc-time" id="hrcTime">02:14</span>
+          <span class="hrc-label">Ciclo executado</span>
+        </div>
+        <ul class="hrc-list">
+          <li><span class="hrc-check">✓</span><span>47 pedidos capturados</span></li>
+          <li><span class="hrc-check">✓</span><span>NF emitida automaticamente</span></li>
+          <li><span class="hrc-check">✓</span><span>Envio programado</span></li>
+          <li><span class="hrc-check">✓</span><span>Etiquetas impressas</span></li>
+        </ul>
+        <div class="hrc-footer">
+          <span class="hrc-next">→ Próximo ciclo em <strong>28min</strong></span>
+        </div>
+      </div>
+
+      <div class="hero-mini hero-mini--a">
+        <span class="hm-mp">Shopee</span>
+        <span class="hm-val">+23 pedidos</span>
+      </div>
+      <div class="hero-mini hero-mini--b">
+        <span class="hm-mp">Amazon</span>
+        <span class="hm-val">NF emitida</span>
+      </div>
+      <div class="hero-mini hero-mini--c">
+        <span class="hm-mp">Mercado Livre</span>
+        <span class="hm-val">+18 pedidos</span>
+      </div>
     </div>
 
   </div>
-
 </section>
 
 <!-- ============================================================
@@ -143,10 +180,11 @@
     </div>
   </div>
 
-  <div class="marquee">
-    <div class="marquee-track" id="marqueeTrack">
-      <!-- Two copies for seamless loop, injected by JS below for clarity -->
-    </div>
+  <div class="marquee marquee--fwd">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+  <div class="marquee marquee--rev">
+    <div class="marquee-track marquee-track--rev" id="marqueeTrack2"></div>
   </div>
 </section>
 
@@ -155,21 +193,21 @@
 ============================================================ -->
 <section class="trust-bar" data-screen-label="02b Trust">
   <div class="container">
-    <ul class="trust-stats reveal">
-      <li>
-        <span class="trust-num">90<small>min</small></span>
+    <ul class="trust-stats">
+      <li class="trust-item reveal">
+        <span class="trust-num"><span class="trust-n" data-trust-counter="90">0</span><small>min</small></span>
         <span class="trust-lbl">economizados<br/>por dia, em média</span>
       </li>
-      <li>
-        <span class="trust-num">24<small>h</small></span>
+      <li class="trust-item reveal" data-delay="80">
+        <span class="trust-num"><span class="trust-n" data-trust-counter="24">0</span><small>h</small></span>
         <span class="trust-lbl">para estar<br/>rodando</span>
       </li>
-      <li>
-        <span class="trust-num">6</span>
+      <li class="trust-item reveal" data-delay="160">
+        <span class="trust-num"><span class="trust-n" data-trust-counter="6">0</span></span>
         <span class="trust-lbl">marketplaces<br/>integrados</span>
       </li>
-      <li>
-        <span class="trust-num">5 dias</span>
+      <li class="trust-item reveal" data-delay="240">
+        <span class="trust-num">5<small>dias</small></span>
         <span class="trust-lbl">de teste grátis<br/>sem cartão</span>
       </li>
     </ul>
@@ -783,7 +821,7 @@
 </footer>
 
 <script>
-  // Build marquee track — 3 identical copies so the -33.333% loop is always seamless
+  // Build dual marquee tracks — forward + reverse for bidirectional effect
   (function() {
     const items = [
       { src: 'assets/marketplaces/shopee.svg',        alt: 'Shopee' },
@@ -792,16 +830,24 @@
       { src: 'assets/marketplaces/tiktok.svg',        alt: 'TikTok Shop' },
       { src: 'assets/marketplaces/nuvemshop.svg',     alt: 'Nuvemshop' },
       { src: 'assets/marketplaces/shopify.svg',       alt: 'Shopify' },
+      { src: 'assets/marketplaces/upseller.svg',      alt: 'Upseller' },
     ];
-    const track = document.getElementById('marqueeTrack');
     const html = items.map(it =>
       `<div class="marquee-item"><img src="${it.src}" alt="${it.alt}" loading="lazy"/></div>`
     ).join('');
-    track.innerHTML = html + html + html;
+    const t1 = document.getElementById('marqueeTrack');
+    const t2 = document.getElementById('marqueeTrack2');
+    if (t1) t1.innerHTML = html + html + html;
+    // Reverse order for second row
+    if (t2) t2.innerHTML = [...items].reverse().map(it =>
+      `<div class="marquee-item"><img src="${it.src}" alt="${it.alt}" loading="lazy"/></div>`
+    ).join('').repeat(3);
   })();
 </script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
 <script defer src="scripts/site.js"></script>
 
 </body>
