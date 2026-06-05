@@ -586,25 +586,38 @@ section {
 @media (max-width: 960px) {
   .hero-inner {
     grid-template-columns: 1fr;
-    gap: 56px;
+    gap: 44px;
   }
   .hero-content { align-items: center; text-align: center; }
   .hero-eyebrow { align-self: center; }
   .hero-heading { align-items: center; }
   .hero-trust-line { justify-content: center; }
-  .hero-sub { max-width: 52ch; }
+  .hero-sub { max-width: 46ch; }
   .hero-cta-row { justify-content: center; }
-  .hero-right { max-width: 380px; margin: 32px auto 0; }
-  .hero-mini--a { top: -8%; right: -4%; }
-  .hero-mini--c { bottom: -8%; left: -4%; }
+  .hero-right { max-width: 400px; margin: 6px auto 0; width: 100%; }
+  /* Floating chips + source pills overlap once the card is centered
+     in a single column — drop them when stacked */
+  .hero-mini, .hero-sources { display: none; }
   .hero-scroll-hint { display: none; }
+  /* Centered kicker gets a symmetric underline */
+  .hero-eyebrow.kicker::after {
+    background: linear-gradient(90deg, transparent, var(--color-primary) 50%, transparent);
+  }
 }
 @media (max-width: 560px) {
-  .hero { padding-top: 100px; padding-bottom: 60px; }
-  .hero-heading { font-size: clamp(32px, 8.5vw, 44px); }
-  .hero-mini { display: none; }
-  .hero-sources { display: none; }
-  .hero-result-card { padding: 22px 22px; }
+  .hero { padding-top: 92px; padding-bottom: 54px; min-height: auto; }
+  .hero-inner { gap: 34px; }
+  .hero-content { gap: 20px; }
+  .hero-eyebrow.kicker {
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    padding-bottom: 9px;
+  }
+  .hero-heading { font-size: clamp(30px, 8.6vw, 42px); line-height: 1.05; }
+  .hero-sub { font-size: 15px; line-height: 1.6; max-width: 36ch; }
+  .hero-trust-line { gap: 12px 16px; font-size: 12px; }
+  .hero-result-card { padding: 22px 20px; max-width: 100%; }
+  .hrc-list li { font-size: 13.5px; }
 }
 
 /* ===== COMPATIBILITY (dual marquee) ========================= */
