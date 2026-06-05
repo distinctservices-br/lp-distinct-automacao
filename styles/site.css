@@ -182,8 +182,7 @@ section {
 .hero-eyebrow,
 .hero-sub,
 .hero-cta-row,
-.hero-meta,
-.scroll-indicator {
+.hero-meta {
   opacity: 0;
 }
 
@@ -224,43 +223,6 @@ section {
   padding-bottom: 0.08em;
 }
 
-/* ── Scroll indicator ─────────────────────────────────────────
- * Vertical line + "scroll" label centered at bottom of hero.
- * Fades out on first scroll via GSAP.
- */
-.scroll-indicator {
-  position: absolute;
-  bottom: 44px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  pointer-events: none;
-  z-index: 3;
-}
-.scroll-indicator span {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(250,250,250,0.30);
-}
-.scroll-line {
-  width: 1px;
-  height: 52px;
-  background: linear-gradient(to bottom, rgba(115,243,164,0.6), transparent);
-  transform-origin: top center;
-  animation: scrollDrop 2.1s cubic-bezier(0.19, 1, 0.22, 1) infinite;
-}
-@keyframes scrollDrop {
-  0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
-  15%  { opacity: 1; }
-  70%  { transform: scaleY(1); transform-origin: top; }
-  71%  { transform: scaleY(1); transform-origin: bottom; }
-  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
-}
 
 .hero-bg {
   position: absolute;
@@ -1262,10 +1224,10 @@ section {
   font-weight: 800;
   font-size: clamp(100px, 18vw, 220px);
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: 0.18em;
   /* fill com baixa opacidade — efeito watermark sem linhas internas
      (stroke contornaria também os "buracos" da letra como o olho do P) */
-  color: rgba(115,243,164,0.06);
+  color: #151C18;
   z-index: 0;
   user-select: none;
 }
@@ -2015,8 +1977,6 @@ section {
   .hero-meta { font-size: 12px; gap: 12px; flex-wrap: wrap; justify-content: center; }
   .hero-cta-row { width: 100%; flex-direction: column; align-items: stretch; max-width: 340px; }
   .hero-cta-row .btn { width: 100%; height: 48px; }
-  .scroll-indicator { bottom: 28px; }
-  .scroll-line { height: 38px; }
   .section-head h2 { font-size: clamp(28px, 7vw, 40px); }
   .section-head p { font-size: 16px; }
   .compat { padding-block: 60px; }
@@ -2027,7 +1987,7 @@ section {
   .problem-item h4 { font-size: 15px; }
   .problem-visual { padding: 24px; }
   .console { margin-top: 36px; }
-  .pricing-title-bg { font-size: clamp(64px, 18vw, 120px); top: 60px; }
+  .pricing-title-bg { font-size: clamp(64px, 18vw, 120px); top: 60px; letter-spacing: 0.14em; }
   .pricing-head { padding-top: 30px; margin-bottom: 36px; }
   .price-card { padding: 26px 22px; }
   .final-cta { padding-block: 90px; }

@@ -154,7 +154,6 @@ onScrollNav();
   gsap.set('.hero-sub',     { opacity: 0, y: 24 });
   gsap.set('.hero-cta-row', { opacity: 0, y: 18 });
   gsap.set('.hero-meta',    { opacity: 0, y: 14 });
-  gsap.set('#scrollIndicator', { opacity: 0 });
 
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
   tl
@@ -162,20 +161,7 @@ onScrollNav();
     .to(lines, { y: '0%', duration: 0.75, ease: 'expo.out', stagger: 0.09 }, '+=0.15')
     .to('.hero-sub',     { opacity: 1, y: 0, duration: 0.6 }, '-=0.40')
     .to('.hero-cta-row', { opacity: 1, y: 0, duration: 0.55 }, '-=0.45')
-    .to('.hero-meta',    { opacity: 1, y: 0, duration: 0.5 }, '-=0.40')
-    .to('#scrollIndicator', { opacity: 1, duration: 0.6 }, '-=0.20');
-})();
-
-// ─── Scroll indicator: vanish on first scroll ─────────────────
-(function scrollIndicator() {
-  const el = document.getElementById('scrollIndicator');
-  if (!el) return;
-  window.addEventListener('scroll', function hide() {
-    if (window.scrollY > 60) {
-      gsap.to(el, { opacity: 0, y: 12, duration: 0.6, ease: 'power3.out' });
-      window.removeEventListener('scroll', hide);
-    }
-  }, { passive: true });
+    .to('.hero-meta',    { opacity: 1, y: 0, duration: 0.5 }, '-=0.40');
 })();
 
 // ─── Scroll reveals (all .reveal elements below fold) ─────────
