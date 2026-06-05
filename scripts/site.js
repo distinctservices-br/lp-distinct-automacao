@@ -70,7 +70,7 @@ onScrollNav();
   gsap.set('.hero-cta-row',    { opacity: 0, y: 16 });
   gsap.set('.hero-trust-line', { opacity: 0, y: 12 });
   gsap.set('.hero-right',      { opacity: 0, x: 40 });
-  gsap.set(lines,              { clipPath: 'inset(-8% 0 110% 0)' });
+  gsap.set(lines,              { clipPath: 'inset(-12% -8% 116% 0)' });
 
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.1 });
 
@@ -79,7 +79,7 @@ onScrollNav();
 
   // Headline lines rise from behind a clip mask, staggered
   tl.to(lines, {
-    clipPath: 'inset(-8% 0 -8% 0)',
+    clipPath: 'inset(-12% -8% -12% 0)',
     duration: 0.75,
     ease: 'expo.out',
     stagger: 0.1,

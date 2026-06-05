@@ -265,8 +265,10 @@ section {
 .hero-heading .hl-in {
   display: inline-block;
   white-space: nowrap; /* keep each defined line intact (e.g. "já estão prontos.") */
-  /* pre-hidden: revealed via GSAP clip-path */
-  clip-path: inset(-8% 0 110% 0);
+  padding-right: 0.12em; /* room so the trailing period isn't clipped */
+  /* pre-hidden: revealed via GSAP clip-path (negative right/bottom
+     insets keep the period + descenders fully inside the mask) */
+  clip-path: inset(-12% -8% 116% 0);
   will-change: clip-path;
 }
 .hero-heading .hl-accent { color: var(--color-primary); }
