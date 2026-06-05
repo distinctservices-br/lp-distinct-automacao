@@ -62,20 +62,7 @@ onScrollNav();
   const heading = document.querySelector('.js-hero-heading');
   if (!heading) return;
 
-  // SplitType splits h1 into .word spans, each becomes an overflow mask
-  let splitInstance;
-  if (typeof SplitType !== 'undefined') {
-    splitInstance = new SplitType(heading, { types: 'words' });
-    // Wrap each word's inner content so we can clip-path reveal it
-    splitInstance.words.forEach(word => {
-      const inner = document.createElement('span');
-      inner.className = 'word-inner';
-      inner.style.cssText = 'display:inline-block; clip-path: inset(0 0 100% 0);';
-      while (word.firstChild) inner.appendChild(word.firstChild);
-      word.style.cssText = 'overflow:hidden; display:inline-block; padding-bottom:0.06em; vertical-align:bottom;';
-      word.appendChild(inner);
-    });
-  }
+  const lines = heading.querySelectorAll('.hl-in');
 
   // FOUC guard: set initial hidden states
   gsap.set('.hero-eyebrow',    { opacity: 0, y: 10 });
@@ -83,30 +70,28 @@ onScrollNav();
   gsap.set('.hero-cta-row',    { opacity: 0, y: 16 });
   gsap.set('.hero-trust-line', { opacity: 0, y: 12 });
   gsap.set('.hero-right',      { opacity: 0, x: 40 });
+  gsap.set(lines,              { clipPath: 'inset(-8% 0 110% 0)' });
 
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.1 });
 
-  // Eyebrow line
+  // Eyebrow
   tl.to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.5 });
 
-  // Headline words clip-path reveal
-  if (splitInstance && splitInstance.words.length) {
-    const inners = heading.querySelectorAll('.word-inner');
-    tl.to(inners, {
-      clipPath: 'inset(0 0 0% 0)',
-      duration: 0.7,
-      ease: 'expo.out',
-      stagger: 0.06,
-    }, '-=0.25');
-  }
+  // Headline lines rise from behind a clip mask, staggered
+  tl.to(lines, {
+    clipPath: 'inset(-8% 0 -8% 0)',
+    duration: 0.75,
+    ease: 'expo.out',
+    stagger: 0.1,
+  }, '-=0.2');
 
   // Sub + CTA + trust line
-  tl.to('.hero-sub',        { opacity: 1, y: 0, duration: 0.65 }, '-=0.45')
+  tl.to('.hero-sub',        { opacity: 1, y: 0, duration: 0.65 }, '-=0.5')
     .to('.hero-cta-row',    { opacity: 1, y: 0, duration: 0.55 }, '-=0.5')
     .to('.hero-trust-line', { opacity: 1, y: 0, duration: 0.5 },  '-=0.4');
 
   // Right card slides in
-  tl.to('.hero-right', { opacity: 1, x: 0, duration: 0.9, ease: 'expo.out' }, '-=0.95');
+  tl.to('.hero-right', { opacity: 1, x: 0, duration: 0.9, ease: 'expo.out' }, '-=1.0');
 
   // Mini cards cascade in after main card
   const minis = gsap.utils.toArray('.hero-mini');

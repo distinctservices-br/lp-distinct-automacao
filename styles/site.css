@@ -73,39 +73,43 @@ section {
 }
 .btn-arrow:hover::after { transform: translateX(3px); }
 
-/* ===== Eyebrow / labels ===================================== */
-.eyebrow-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--color-green-glass-border);
-  background: var(--color-green-glow);
+/* ===== Kicker — section/title overline (v2) ================ *
+ * Modern editorial label: uppercase letterspaced text with a
+ * gradient hairline beneath. No pill, no dot — deliberately
+ * distinct from the status badges / chips used elsewhere.
+ */
+.kicker {
+  display: inline-block;
+  position: relative;
   font-family: var(--font-body);
   font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.07em;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--color-primary);
+  padding-bottom: 12px;
+  margin-bottom: 2px;
 }
-.eyebrow-tag::before {
+.kicker::after {
   content: "";
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  box-shadow: 0 0 8px var(--color-primary);
-  animation: pulse 2s infinite var(--ease-in-out);
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, rgba(115,243,164,0.35) 40%, transparent 100%);
 }
-.eyebrow-tag.warn {
-  border-color: rgba(255,95,87,0.30);
-  background: rgba(255,95,87,0.06);
-  color: #FF8480;
+.kicker--warn { color: #FF8480; }
+.kicker--warn::after {
+  background: linear-gradient(90deg, #FF8480 0%, rgba(255,132,128,0.35) 40%, transparent 100%);
 }
-.eyebrow-tag.warn::before {
-  background: #FF8480;
-  box-shadow: 0 0 8px #FF8480;
+/* Centered contexts: gradient symmetric, centered text */
+.section-head.center .kicker,
+.final-cta-inner .kicker { text-align: center; }
+.section-head.center .kicker::after,
+.final-cta-inner .kicker::after {
+  background: linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%);
 }
+
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
@@ -197,35 +201,48 @@ section {
 .aurora-blob--1 {
   width: 48vw; height: 48vw;
   max-width: 760px; max-height: 760px;
-  left: 6%; top: 6%;
-  background: radial-gradient(circle, rgba(115,243,164,0.26) 0%, transparent 62%);
-  animation: auroraDrift1 18s ease-in-out infinite;
+  left: 4%; top: 4%;
+  background: radial-gradient(circle, rgba(115,243,164,0.28) 0%, transparent 62%);
+  animation: auroraDrift1 16s ease-in-out infinite;
 }
 .aurora-blob--2 {
   width: 40vw; height: 40vw;
   max-width: 640px; max-height: 640px;
-  right: 2%; top: 28%;
-  background: radial-gradient(circle, rgba(79,189,137,0.20) 0%, transparent 62%);
-  animation: auroraDrift2 22s ease-in-out infinite;
+  right: 0%; top: 24%;
+  background: radial-gradient(circle, rgba(79,189,137,0.22) 0%, transparent 62%);
+  animation: auroraDrift2 19s ease-in-out infinite;
 }
 .aurora-blob--3 {
   width: 34vw; height: 34vw;
   max-width: 540px; max-height: 540px;
-  left: 32%; bottom: 2%;
-  background: radial-gradient(circle, rgba(115,243,164,0.14) 0%, transparent 62%);
-  animation: auroraDrift3 26s ease-in-out infinite;
+  left: 30%; bottom: 0%;
+  background: radial-gradient(circle, rgba(115,243,164,0.16) 0%, transparent 62%);
+  animation: auroraDrift3 23s ease-in-out infinite;
+}
+.aurora-blob--4 {
+  width: 28vw; height: 28vw;
+  max-width: 440px; max-height: 440px;
+  right: 22%; bottom: 10%;
+  background: radial-gradient(circle, rgba(115,243,164,0.13) 0%, transparent 62%);
+  animation: auroraDrift4 27s ease-in-out infinite;
 }
 @keyframes auroraDrift1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(8%, 6%) scale(1.15); }
+  33%      { transform: translate(12%, 8%) scale(1.18); }
+  66%      { transform: translate(6%, 14%) scale(1.05); }
 }
 @keyframes auroraDrift2 {
   0%, 100% { transform: translate(0, 0) scale(1.1); }
-  50%      { transform: translate(-10%, 8%) scale(0.95); }
+  33%      { transform: translate(-14%, 10%) scale(0.92); }
+  66%      { transform: translate(-6%, -8%) scale(1.12); }
 }
 @keyframes auroraDrift3 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(6%, -8%) scale(1.2); }
+  50%      { transform: translate(10%, -12%) scale(1.22); }
+}
+@keyframes auroraDrift4 {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50%      { transform: translate(-12%, -10%) scale(0.9); }
 }
 
 /* Subtle dot-grid overlay */
@@ -277,56 +294,31 @@ section {
   opacity: 0;
 }
 
-.hero-eyebrow {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 16px;
-  border-radius: var(--radius-full);
-  border: 1px solid rgba(115,243,164,0.18);
-  background: rgba(115,243,164,0.04);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-.hero-eyebrow-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  box-shadow: 0 0 8px var(--color-primary);
-  animation: pulse 2s infinite var(--ease-in-out);
-  flex-shrink: 0;
-}
+/* hero-eyebrow uses .kicker for styling; this only aligns it left */
+.hero-eyebrow { align-self: flex-start; }
 
-/* Hero headline — Montserrat Alternates, the ONE special phrase */
+/* Hero headline — Montserrat Alternates, the ONE special phrase.
+ * Explicit line structure for precise breaks (matches reference). */
 .hero-heading {
   font-family: "Montserrat Alternates", "Montserrat", system-ui, sans-serif;
   font-weight: 900;
-  font-size: clamp(36px, 4.6vw, 64px);
-  line-height: 1.0;
+  font-size: clamp(34px, 4.4vw, 62px);
+  line-height: 1.02;
   letter-spacing: -0.03em;
   color: #FFFFFF;
-  text-wrap: balance;
+  display: flex;
+  flex-direction: column;
 }
-/* Color accent on the second clause — survives SplitType word wrapping */
-.hero-heading .hero-accent { color: var(--color-primary); }
-.hero-heading .hero-accent .word-inner { color: var(--color-primary); }
-/* SplitType wraps each word — we clip-reveal per word */
-.hero-heading .word {
-  overflow: hidden;
+.hero-heading .hl {
+  display: block;
+}
+.hero-heading .hl-in {
   display: inline-block;
-  padding-bottom: 0.08em;
-  vertical-align: bottom;
+  /* pre-hidden: revealed via GSAP clip-path */
+  clip-path: inset(-8% 0 110% 0);
+  will-change: clip-path;
 }
-.hero-heading .word > * {
-  display: inline-block;
-  clip-path: inset(0 0 100% 0);
-}
+.hero-heading .hl-accent { color: var(--color-primary); }
 
 .hero-sub {
   font-family: var(--font-body-lg);
@@ -644,6 +636,8 @@ section {
     gap: 56px;
   }
   .hero-content { align-items: center; text-align: center; }
+  .hero-eyebrow { align-self: center; }
+  .hero-heading { align-items: center; }
   .hero-trust-line { justify-content: center; }
   .hero-sub { max-width: 52ch; }
   .hero-cta-row { justify-content: center; }
