@@ -179,6 +179,93 @@ gsap.utils.toArray('.reveal').forEach(el => {
   });
 })();
 
+// ─── Problem: per-item emphasis reveal ────────────────────────
+(function problemReveal() {
+  const list = document.querySelector('.js-problem-list');
+  if (!list) return;
+  const items = list.querySelectorAll('.problem-item');
+
+  items.forEach((item, i) => {
+    const icon = item.querySelector('.icon');
+    const content = item.querySelector('div:last-child');
+
+    gsap.set(item, { opacity: 0, y: 24 });
+    if (icon) gsap.set(icon, { scale: 0, rotate: -20 });
+    if (content) gsap.set(content, { opacity: 0, x: -12 });
+
+    ScrollTrigger.create({
+      trigger: item,
+      start: 'top 88%',
+      once: true,
+      onEnter: () => {
+        const tl = gsap.timeline();
+        tl.to(item, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' })
+          .to(icon, { scale: 1, rotate: 0, duration: 0.55, ease: 'back.out(2)' }, '-=0.35')
+          .to(content, { opacity: 1, x: 0, duration: 0.5, ease: 'power3.out' }, '-=0.4');
+      },
+    });
+  });
+})();
+
+// ─── Flow: console assembles itself on scroll ─────────────────
+(function consoleAssemble() {
+  const consoleEl = document.querySelector('.js-console');
+  if (!consoleEl) return;
+  const parts = consoleEl.querySelectorAll('.js-console-part');
+  if (!parts.length) return;
+
+  gsap.set(consoleEl, { opacity: 0, y: 40, scale: 0.985 });
+  gsap.set(parts, { opacity: 0, y: 24 });
+
+  ScrollTrigger.create({
+    trigger: consoleEl,
+    start: 'top 80%',
+    once: true,
+    onEnter: () => {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      tl.to(consoleEl, { opacity: 1, y: 0, scale: 1, duration: 0.7 })
+        .to(parts, { opacity: 1, y: 0, duration: 0.6, stagger: 0.15 }, '-=0.4');
+    },
+  });
+})();
+
+// ─── How-it-works: horizontal scroll (desktop pin) ────────────
+(function howtoHorizontal() {
+  const viewport = document.querySelector('.js-howto-viewport');
+  const track = document.querySelector('.js-howto-track');
+  const bar = document.querySelector('.js-howto-bar');
+  if (!viewport || !track) return;
+
+  const mm = gsap.matchMedia();
+
+  mm.add('(min-width: 901px)', () => {
+    // Distance the track must travel to reveal its overflow
+    const getScrollDist = () => track.scrollWidth - viewport.clientWidth;
+
+    const tween = gsap.to(track, {
+      x: () => -getScrollDist(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: viewport,
+        start: 'center center',
+        end: () => '+=' + getScrollDist(),
+        pin: true,
+        scrub: 1,
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          if (bar) {
+            // bar grows from 25% to 100% across the scroll
+            gsap.set(bar, { width: (25 + self.progress * 75) + '%' });
+          }
+        },
+      },
+    });
+
+    return () => { tween.kill(); };
+  });
+})();
+
 // ─── Live console (flow section) ──────────────────────────────
 (function liveConsole() {
   const consoleEl = document.querySelector('.console');
@@ -338,3 +425,8 @@ function tickClock() {
 }
 tickClock();
 setInterval(tickClock, 1000);
+
+// ─── Recalculate ScrollTrigger positions once everything's loaded ──
+// Fonts/images can shift layout; refresh so pins & horizontal scroll
+// measure against the final document height.
+window.addEventListener('load', () => ScrollTrigger.refresh());

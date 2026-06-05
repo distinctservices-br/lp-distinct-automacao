@@ -251,7 +251,7 @@
     </div>
 
     <div class="problem-grid">
-      <div class="problem-list reveal">
+      <div class="problem-list js-problem-list">
         <div class="problem-item">
           <div class="icon">⏱</div>
           <div>
@@ -322,9 +322,9 @@
       <p>Uma execução real, rodando em quatro lojas de um mesmo cliente. A Distinct entra em cada loja, emite as notas, programa os envios e imprime as etiquetas. Tudo agrupado por loja, produto e variação.</p>
     </div>
 
-    <div class="console reveal" data-delay="80">
+    <div class="console js-console">
       <!-- Browser chrome -->
-      <div class="console-chrome">
+      <div class="console-chrome js-console-part">
         <div class="chrome-dots" aria-hidden="true">
           <span class="dot dot-r"></span>
           <span class="dot dot-y"></span>
@@ -341,7 +341,7 @@
       </div>
 
       <!-- Stats row -->
-      <div class="console-stats">
+      <div class="console-stats js-console-part">
         <div class="stat-card">
           <span class="stat-label">NFs emitidas hoje</span>
           <span class="stat-value" data-counter="247">0</span>
@@ -363,7 +363,7 @@
       </div>
 
       <!-- Two-panel grid -->
-      <div class="console-grid">
+      <div class="console-grid js-console-part">
         <!-- Live activity feed -->
         <section class="panel feed-panel">
           <header class="panel-head">
@@ -423,8 +423,11 @@
       <p>A configuração acontece na semana de onboarding. Depois disso, a automação simplesmente roda no horário que você definiu.</p>
     </div>
 
-    <ol class="howto-grid">
-      <li class="howto-step reveal">
+  </div>
+
+  <div class="howto-viewport js-howto-viewport">
+    <ol class="howto-track js-howto-track">
+      <li class="howto-panel">
         <span class="howto-num">01</span>
         <div class="howto-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
@@ -433,7 +436,7 @@
         <p>Horário e recorrência. Por exemplo, a cada 30 minutos entre 06h30 e 13h30 nos dias úteis. Ou no horário que faz sentido pra sua loja.</p>
       </li>
 
-      <li class="howto-step reveal" data-delay="100">
+      <li class="howto-panel">
         <span class="howto-num">02</span>
         <div class="howto-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h16"/></svg>
@@ -442,7 +445,7 @@
         <p>Shopee, Mercado Livre, Amazon, TikTok, Nuvemshop, Shopify. Todas as suas lojas no mesmo ciclo, cada uma processada separadamente.</p>
       </li>
 
-      <li class="howto-step reveal" data-delay="200">
+      <li class="howto-panel">
         <span class="howto-num">03</span>
         <div class="howto-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
@@ -451,7 +454,7 @@
         <p>Emite as notas, programa os envios e imprime as etiquetas. Tudo agrupado por loja, produto e variação. Sem você precisar abrir o Upseller.</p>
       </li>
 
-      <li class="howto-step reveal" data-delay="300">
+      <li class="howto-panel">
         <span class="howto-num">04</span>
         <div class="howto-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg>
@@ -460,6 +463,7 @@
         <p>Caiu pedido novo meia hora depois? A Distinct captura na próxima varredura, antes do corte do marketplace. Você não precisa lembrar.</p>
       </li>
     </ol>
+    <div class="howto-progress" aria-hidden="true"><span class="howto-progress-bar js-howto-bar"></span></div>
   </div>
 </section>
 
