@@ -183,22 +183,10 @@ section {
   overflow: hidden;
 }
 
-/* ── Subtle brand-mark watermark ─────────────────────────── *
- * The iS mark painted very faintly across the whole hero as a
- * delicate texture detail. Uses mask so we control the tint. */
-.hero-mark {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  -webkit-mask: url("../assets/iS-mark.svg") no-repeat center / clamp(540px, 70vw, 1100px);
-          mask: url("../assets/iS-mark.svg") no-repeat center / clamp(540px, 70vw, 1100px);
-  background: rgba(227, 255, 233, 0.035);
-}
-
 /* ── Seam bloom into the section below ───────────────────── *
- * Green glow blooming upward from the hero's bottom edge,
- * echoing the reference's gradient at the section boundary. */
+ * Green glow blooming upward from the hero's bottom edge across
+ * the FULL width — central bloom is brightest, but the corners
+ * still carry a base green so nothing falls dark. */
 .hero-seam {
   position: absolute;
   left: 0; right: 0; bottom: 0;
@@ -206,22 +194,28 @@ section {
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 65% 100% at 50% 100%,
-      rgba(115,243,164,0.30) 0%,
-      rgba(115,243,164,0.12) 28%,
-      rgba(115,243,164,0.03) 52%,
-      transparent 75%);
+    /* full-width base glow rising from the bottom (covers corners) */
+    linear-gradient(0deg,
+      rgba(115,243,164,0.16) 0%,
+      rgba(115,243,164,0.06) 30%,
+      transparent 70%),
+    /* central bloom — brightest in the middle */
+    radial-gradient(ellipse 90% 110% at 50% 100%,
+      rgba(115,243,164,0.28) 0%,
+      rgba(115,243,164,0.10) 35%,
+      transparent 72%);
 }
-/* Bright core line at the exact seam */
+/* Bright core line at the exact seam — full width */
 .hero-seam::after {
   content: "";
   position: absolute;
-  left: 50%; bottom: 0;
-  transform: translateX(-50%);
-  width: 80%;
+  left: 0; right: 0; bottom: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(115,243,164,0.6), transparent);
-  box-shadow: 0 0 18px 2px rgba(115,243,164,0.35);
+  background: linear-gradient(90deg,
+    rgba(115,243,164,0.25) 0%,
+    rgba(115,243,164,0.6) 50%,
+    rgba(115,243,164,0.25) 100%);
+  box-shadow: 0 0 18px 2px rgba(115,243,164,0.30);
 }
 
 /* ── Two-column split layout ─────────────────────────────── */
