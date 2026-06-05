@@ -1737,6 +1737,7 @@ section {
   top: 100px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 16px;
 }
 .faq-head h2 {
