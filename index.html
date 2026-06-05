@@ -109,17 +109,26 @@
      HERO
 ============================================================ -->
 <section class="hero" id="top" data-screen-label="01 Hero">
-  <div class="hero-bg-glow" aria-hidden="true"></div>
+  <!-- Animated aurora background -->
+  <div class="hero-aurora" aria-hidden="true">
+    <span class="aurora-blob aurora-blob--1"></span>
+    <span class="aurora-blob aurora-blob--2"></span>
+    <span class="aurora-blob aurora-blob--3"></span>
+  </div>
   <div class="hero-bg-grid" aria-hidden="true"></div>
+  <div class="hero-bg-fade" aria-hidden="true"></div>
 
   <div class="container hero-inner">
 
     <!-- ── Left: text content ─────────────────────────────── -->
     <div class="hero-content">
-      <p class="hero-eyebrow">Para lojistas multi-marketplace</p>
+      <p class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        Automação operacional · multi-marketplace
+      </p>
 
       <h1 class="hero-heading js-hero-heading">
-        Seus pedidos já estão prontos. E você ainda nem acordou.
+        Seus pedidos já estão prontos. <span class="hero-accent">E você ainda nem acordou.</span>
       </h1>
 
       <p class="hero-sub">
@@ -131,34 +140,52 @@
            class="btn btn-primary btn-arrow js-magnetic" target="_blank" rel="noopener">Testar 5 dias grátis</a>
         <a href="#fluxo" class="btn btn-ghost">Ver demo em 60s</a>
       </div>
+
+      <ul class="hero-trust-line">
+        <li>5 dias grátis</li>
+        <li>Sem cartão</li>
+        <li>Cancela quando quiser</li>
+      </ul>
     </div>
 
     <!-- ── Right: automation result card ─────────────────── -->
     <div class="hero-right" aria-hidden="true">
+
+      <!-- Marketplace source chips feeding into the card -->
+      <div class="hero-sources">
+        <span class="hsrc hsrc--1">Shopee</span>
+        <span class="hsrc hsrc--2">Mercado Livre</span>
+        <span class="hsrc hsrc--3">Amazon</span>
+        <span class="hsrc hsrc--4">TikTok</span>
+      </div>
+
       <div class="hero-result-card">
+        <div class="hrc-glow" aria-hidden="true"></div>
         <div class="hrc-head">
           <span class="hrc-dot"></span>
           <span class="hrc-time" id="hrcTime">02:14</span>
           <span class="hrc-label">Ciclo executado</span>
         </div>
+
+        <div class="hrc-progress">
+          <span class="hrc-progress-bar"></span>
+        </div>
+
         <ul class="hrc-list">
-          <li><span class="hrc-check">✓</span><span>47 pedidos capturados</span></li>
+          <li><span class="hrc-check">✓</span><span><strong>47</strong> pedidos capturados</span></li>
           <li><span class="hrc-check">✓</span><span>NF emitida automaticamente</span></li>
           <li><span class="hrc-check">✓</span><span>Envio programado</span></li>
           <li><span class="hrc-check">✓</span><span>Etiquetas impressas</span></li>
         </ul>
         <div class="hrc-footer">
-          <span class="hrc-next">→ Próximo ciclo em <strong>28min</strong></span>
+          <span class="hrc-next">Próximo ciclo em <strong>28min</strong></span>
+          <span class="hrc-status">Rodando</span>
         </div>
       </div>
 
       <div class="hero-mini hero-mini--a">
         <span class="hm-mp">Shopee</span>
         <span class="hm-val">+23 pedidos</span>
-      </div>
-      <div class="hero-mini hero-mini--b">
-        <span class="hm-mp">Amazon</span>
-        <span class="hm-val">NF emitida</span>
       </div>
       <div class="hero-mini hero-mini--c">
         <span class="hm-mp">Mercado Livre</span>
@@ -167,6 +194,10 @@
     </div>
 
   </div>
+
+  <a href="#fluxo" class="hero-scroll-hint" aria-label="Rolar para baixo">
+    <span class="hsh-line"></span>
+  </a>
 </section>
 
 <!-- ============================================================
@@ -830,7 +861,6 @@
       { src: 'assets/marketplaces/tiktok.svg',        alt: 'TikTok Shop' },
       { src: 'assets/marketplaces/nuvemshop.svg',     alt: 'Nuvemshop' },
       { src: 'assets/marketplaces/shopify.svg',       alt: 'Shopify' },
-      { src: 'assets/marketplaces/upseller.svg',      alt: 'Upseller' },
     ];
     const html = items.map(it =>
       `<div class="marquee-item"><img src="${it.src}" alt="${it.alt}" loading="lazy"/></div>`

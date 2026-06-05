@@ -14,17 +14,35 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 let lenis;
 if (!reduceMotion && typeof Lenis !== 'undefined') {
   lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    duration: 0.8,
+    easing: (t) => 1 - Math.pow(1 - t, 3), // cubic out — light, quick settle
     orientation: 'vertical',
     gestureOrientation: 'vertical',
     smoothWheel: true,
+    wheelMultiplier: 1.1,
+    touchMultiplier: 1.6,
   });
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
   // Sync ScrollTrigger with Lenis scroll position
   lenis.on('scroll', ScrollTrigger.update);
 }
+
+// ─── Anchor links: smooth-scroll via Lenis ───────────────────
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const id = link.getAttribute('href');
+    if (!id || id === '#') return;
+    const target = document.querySelector(id);
+    if (!target) return;
+    e.preventDefault();
+    if (lenis) {
+      lenis.scrollTo(target, { offset: -80, duration: 1.0 });
+    } else {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
 
 // ─── Nav: shrink on scroll ────────────────────────────────────
 const nav = document.querySelector('.nav');
@@ -60,10 +78,11 @@ onScrollNav();
   }
 
   // FOUC guard: set initial hidden states
-  gsap.set('.hero-eyebrow', { opacity: 0, y: 10 });
-  gsap.set('.hero-sub',     { opacity: 0, y: 20 });
-  gsap.set('.hero-cta-row', { opacity: 0, y: 16 });
-  gsap.set('.hero-right',   { opacity: 0, x: 40 });
+  gsap.set('.hero-eyebrow',    { opacity: 0, y: 10 });
+  gsap.set('.hero-sub',        { opacity: 0, y: 20 });
+  gsap.set('.hero-cta-row',    { opacity: 0, y: 16 });
+  gsap.set('.hero-trust-line', { opacity: 0, y: 12 });
+  gsap.set('.hero-right',      { opacity: 0, x: 40 });
 
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.1 });
 
@@ -81,12 +100,13 @@ onScrollNav();
     }, '-=0.25');
   }
 
-  // Sub + CTA
-  tl.to('.hero-sub',     { opacity: 1, y: 0, duration: 0.65 }, '-=0.45')
-    .to('.hero-cta-row', { opacity: 1, y: 0, duration: 0.55 }, '-=0.5');
+  // Sub + CTA + trust line
+  tl.to('.hero-sub',        { opacity: 1, y: 0, duration: 0.65 }, '-=0.45')
+    .to('.hero-cta-row',    { opacity: 1, y: 0, duration: 0.55 }, '-=0.5')
+    .to('.hero-trust-line', { opacity: 1, y: 0, duration: 0.5 },  '-=0.4');
 
   // Right card slides in
-  tl.to('.hero-right', { opacity: 1, x: 0, duration: 0.9, ease: 'expo.out' }, '-=0.85');
+  tl.to('.hero-right', { opacity: 1, x: 0, duration: 0.9, ease: 'expo.out' }, '-=0.95');
 
   // Mini cards cascade in after main card
   const minis = gsap.utils.toArray('.hero-mini');
@@ -101,15 +121,15 @@ onScrollNav();
 
   // Hero result card: subtle parallax on scroll
   const heroRight = document.querySelector('.hero-right');
-  if (heroRight) {
+  if (heroRight && !reduceMotion) {
     gsap.to(heroRight, {
-      y: 60,
+      y: 40,
       ease: 'none',
       scrollTrigger: {
         trigger: '.hero',
         start: 'top top',
         end: 'bottom top',
-        scrub: 1.2,
+        scrub: 0.5,
       },
     });
   }
