@@ -253,36 +253,36 @@
     <div class="problem-grid">
       <div class="problem-list js-problem-list">
         <div class="problem-item">
-          <div class="icon">⏱</div>
-          <div>
+          <span class="problem-index">01</span>
+          <div class="problem-item-body">
             <h4>Pesquisar pedidos que saem hoje</h4>
             <p>Você filtra por marketplace e se aquele pedido deve sair hoje. Anota o que cabe, fecha o que não. Toda manhã. Em todas as lojas.</p>
           </div>
         </div>
         <div class="problem-item">
-          <div class="icon">⎈</div>
-          <div>
+          <span class="problem-index">02</span>
+          <div class="problem-item-body">
             <h4>Emitir NF, programar envio, imprimir</h4>
             <p>Esse é o passo a passo, Todo. Santo. Dia.</p>
           </div>
         </div>
         <div class="problem-item">
-          <div class="icon">↺</div>
-          <div>
+          <span class="problem-index">03</span>
+          <div class="problem-item-body">
             <h4>Recomeçar a cada pedido novo</h4>
             <p>Sempre cai mais um. Você imprime e volta de novo, e de novo, até bater o corte. Ou esquece e a etiqueta sai amanhã.</p>
           </div>
         </div>
         <div class="problem-item">
-          <div class="icon">▤</div>
-          <div>
+          <span class="problem-index">04</span>
+          <div class="problem-item-body">
             <h4>Separar tudo depois</h4>
             <p>Pilha de etiquetas misturadas: Shopee, Mercado Livre, TikTok. Calça, camiseta, P, M, G. Você organiza com a mão.</p>
           </div>
         </div>
       </div>
 
-      <div class="problem-visual reveal" data-delay="120">
+      <div class="problem-visual js-problem-visual">
         <span class="problem-visual-label">Tempo perdido por dia</span>
         <div>
           <div class="problem-visual-number">90<span class="unit">min</span></div>
@@ -425,45 +425,32 @@
 
   </div>
 
-  <div class="howto-viewport js-howto-viewport">
-    <ol class="howto-track js-howto-track">
-      <li class="howto-panel">
+  <div class="howto-stage js-howto-stage">
+    <ol class="howto-deck js-howto-deck">
+      <li class="howto-card" data-i="0">
         <span class="howto-num">01</span>
-        <div class="howto-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        </div>
         <h3>Você define</h3>
         <p>Horário e recorrência. Por exemplo, a cada 30 minutos entre 06h30 e 13h30 nos dias úteis. Ou no horário que faz sentido pra sua loja.</p>
       </li>
 
-      <li class="howto-panel">
+      <li class="howto-card" data-i="1">
         <span class="howto-num">02</span>
-        <div class="howto-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 6h16M4 18h16"/></svg>
-        </div>
         <h3>A Distinct conecta</h3>
         <p>Shopee, Mercado Livre, Amazon, TikTok, Nuvemshop, Shopify. Todas as suas lojas no mesmo ciclo, cada uma processada separadamente.</p>
       </li>
 
-      <li class="howto-panel">
+      <li class="howto-card" data-i="2">
         <span class="howto-num">03</span>
-        <div class="howto-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        </div>
         <h3>A Distinct executa</h3>
         <p>Emite as notas, programa os envios e imprime as etiquetas. Tudo agrupado por loja, produto e variação. Sem você precisar abrir o Upseller.</p>
       </li>
 
-      <li class="howto-panel">
+      <li class="howto-card" data-i="3">
         <span class="howto-num">04</span>
-        <div class="howto-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg>
-        </div>
         <h3>E volta sozinha</h3>
         <p>Caiu pedido novo meia hora depois? A Distinct captura na próxima varredura, antes do corte do marketplace. Você não precisa lembrar.</p>
       </li>
     </ol>
-    <div class="howto-progress" aria-hidden="true"><span class="howto-progress-bar js-howto-bar"></span></div>
   </div>
 </section>
 

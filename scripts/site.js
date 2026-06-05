@@ -179,31 +179,43 @@ gsap.utils.toArray('.reveal').forEach(el => {
   });
 })();
 
-// ─── Problem: per-item emphasis reveal ────────────────────────
+// ─── Problem: ordered reveal — items first, big card last ─────
 (function problemReveal() {
   const list = document.querySelector('.js-problem-list');
   if (!list) return;
-  const items = list.querySelectorAll('.problem-item');
+  const items = gsap.utils.toArray(list.querySelectorAll('.problem-item'));
+  const visual = document.querySelector('.js-problem-visual');
 
-  items.forEach((item, i) => {
-    const icon = item.querySelector('.icon');
-    const content = item.querySelector('div:last-child');
+  // initial hidden states
+  gsap.set(items, { opacity: 0, x: -20 });
+  items.forEach(it => {
+    const idx = it.querySelector('.problem-index');
+    if (idx) gsap.set(idx, { opacity: 0 });
+  });
+  if (visual) gsap.set(visual, { opacity: 0, y: 30, scale: 0.94 });
 
-    gsap.set(item, { opacity: 0, y: 24 });
-    if (icon) gsap.set(icon, { scale: 0, rotate: -20 });
-    if (content) gsap.set(content, { opacity: 0, x: -12 });
+  ScrollTrigger.create({
+    trigger: list,
+    start: 'top 78%',
+    once: true,
+    onEnter: () => {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    ScrollTrigger.create({
-      trigger: item,
-      start: 'top 88%',
-      once: true,
-      onEnter: () => {
-        const tl = gsap.timeline();
-        tl.to(item, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' })
-          .to(icon, { scale: 1, rotate: 0, duration: 0.55, ease: 'back.out(2)' }, '-=0.35')
-          .to(content, { opacity: 1, x: 0, duration: 0.5, ease: 'power3.out' }, '-=0.4');
-      },
-    });
+      // 1) each problem appears in order — number ticks in, then text
+      items.forEach((item, i) => {
+        const idx = item.querySelector('.problem-index');
+        tl.to(item, { opacity: 1, x: 0, duration: 0.5 }, i * 0.18);
+        if (idx) tl.to(idx, { opacity: 1, duration: 0.4 }, i * 0.18 + 0.05);
+      });
+
+      // 2) the big "90min" card animates in last, with emphasis
+      if (visual) {
+        tl.to(visual, {
+          opacity: 1, y: 0, scale: 1,
+          duration: 0.8, ease: 'back.out(1.6)',
+        }, '>-0.1');
+      }
+    },
   });
 })();
 
@@ -229,40 +241,75 @@ gsap.utils.toArray('.reveal').forEach(el => {
   });
 })();
 
-// ─── How-it-works: horizontal scroll (desktop pin) ────────────
-(function howtoHorizontal() {
-  const viewport = document.querySelector('.js-howto-viewport');
-  const track = document.querySelector('.js-howto-track');
-  const bar = document.querySelector('.js-howto-bar');
-  if (!viewport || !track) return;
+// ─── How-it-works: stacked deck that fans out on scroll ───────
+(function howtoDeck() {
+  const stage = document.querySelector('.js-howto-stage');
+  const deck = document.querySelector('.js-howto-deck');
+  if (!stage || !deck) return;
+  const cards = gsap.utils.toArray(deck.querySelectorAll('.howto-card'));
+  const n = cards.length;
+  if (!n) return;
 
   const mm = gsap.matchMedia();
 
   mm.add('(min-width: 901px)', () => {
-    // Distance the track must travel to reveal its overflow
-    const getScrollDist = () => track.scrollWidth - viewport.clientWidth;
+    const GAP = 20;
 
-    const tween = gsap.to(track, {
-      x: () => -getScrollDist(),
-      ease: 'none',
+    // Compute the centered-row layout (scaled to fit the deck width)
+    function layout() {
+      const cardW = cards[0].offsetWidth || 360;
+      const avail = Math.min(deck.clientWidth, 1400) - 16;
+      const slot = (avail - GAP * (n - 1)) / n;
+      const scale = Math.min(1, slot / cardW);
+      const visW = cardW * scale;
+      const step = visW + GAP;
+      return {
+        scale,
+        x: cards.map((_, i) => (i - (n - 1) / 2) * step),
+      };
+    }
+
+    // Initial stacked state — card 0 on top
+    cards.forEach((card, i) => {
+      gsap.set(card, {
+        x: 0,
+        y: i * 10,
+        rotation: (i - (n - 1) / 2) * 3,
+        scale: 1 - i * 0.04,
+        zIndex: n - i,
+        transformOrigin: 'center center',
+      });
+    });
+
+    // Scrubbed timeline: deal each card out to its row slot, in order
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: viewport,
-        start: 'center center',
-        end: () => '+=' + getScrollDist(),
+        trigger: stage,
+        start: 'top top',
+        end: () => '+=' + Math.round(window.innerHeight * 2.2),
         pin: true,
         scrub: 1,
         invalidateOnRefresh: true,
         anticipatePin: 1,
-        onUpdate: (self) => {
-          if (bar) {
-            // bar grows from 25% to 100% across the scroll
-            gsap.set(bar, { width: (25 + self.progress * 75) + '%' });
-          }
-        },
       },
     });
 
-    return () => { tween.kill(); };
+    cards.forEach((card, i) => {
+      tl.to(card, {
+        x: () => layout().x[i],
+        y: 0,
+        rotation: 0,
+        scale: () => layout().scale,
+        ease: 'power2.inOut',
+        duration: 1,
+      }, i * 0.9);
+    });
+
+    return () => {
+      if (tl.scrollTrigger) tl.scrollTrigger.kill();
+      tl.kill();
+      gsap.set(cards, { clearProps: 'all' });
+    };
   });
 })();
 
