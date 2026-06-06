@@ -541,26 +541,24 @@
         <!-- 04 — recorrência (runs until cutoff) -->
         <div class="diff-panel" data-i="3">
           <div class="diff-panel-visual" aria-hidden="true">
-            <div class="dv-runs">
-              <span class="dv-runs-label">recorrência que você escolhe</span>
-              <span class="dv-runs-line">
-                <i></i><i></i><i></i><i></i><i></i>
-                <em class="dv-runs-cut">corte</em>
-              </span>
+            <div class="dv-sweep">
+              <span class="dv-sweep-cap">execuções de hoje</span>
+              <span class="dv-sweep-row"><b>06:30</b><em>executado</em></span>
+              <span class="dv-sweep-row"><b>09:00</b><em>executado</em></span>
+              <span class="dv-sweep-row"><b>11:30</b><em>executado</em></span>
+              <span class="dv-sweep-row cut"><b>13:30</b><span class="dv-sweep-tag">corte do marketplace</span></span>
             </div>
           </div>
-          <p class="diff-panel-text">Roda até o corte do marketplace. Nenhum pedido fica pra trás.</p>
+          <p class="diff-panel-text">Roda na recorrência que você escolhe, até o corte. Nenhum pedido fica pra trás.</p>
         </div>
 
         <!-- 05 — roda enquanto você dorme -->
         <div class="diff-panel" data-i="4">
           <div class="diff-panel-visual" aria-hidden="true">
-            <div class="dv-wake">
-              <span class="dv-wake-time">
-                <small>quando você acorda</small>
-                <b id="diffClock">06h47:12</b>
-              </span>
-              <span class="dv-wake-done">pedidos impressos</span>
+            <div class="dv-night">
+              <span class="dv-night-cap">automação rodando</span>
+              <span class="dv-night-time">05h00</span>
+              <div class="dv-night-bar"><span></span></div>
             </div>
           </div>
           <p class="diff-panel-text">Você acorda e os pedidos já estão impressos.</p>
