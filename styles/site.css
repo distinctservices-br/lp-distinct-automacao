@@ -1452,8 +1452,8 @@ section {
   inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 24px;
+  justify-content: center;
+  gap: clamp(22px, 4vh, 40px);
   padding: clamp(28px, 4vw, 48px);
   opacity: 0;
   visibility: hidden;
@@ -1475,7 +1475,6 @@ section {
 .diff-panel-visual {
   --ink: rgba(250,250,250,0.92);
   --ink-soft: rgba(250,250,250,0.12);
-  flex: 1;
   display: flex;
   align-items: center;
   color: var(--ink);
@@ -1512,11 +1511,11 @@ section {
 /* 03 — marketplace logos (official colors, like the marquee) */
 .dv-logos {
   display: grid; grid-template-columns: repeat(3, auto);
-  gap: clamp(18px, 2.6vw, 30px) clamp(26px, 3.4vw, 44px);
+  gap: clamp(26px, 4vw, 44px) clamp(30px, 4.5vw, 56px);
   align-items: center; justify-items: start;
 }
 .dv-logos img {
-  height: clamp(18px, 1.9vw, 22px); width: auto;
+  height: clamp(24px, 2.5vw, 28px); width: auto;
   filter: brightness(0.92);
 }
 

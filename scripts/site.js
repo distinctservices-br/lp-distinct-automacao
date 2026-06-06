@@ -279,6 +279,7 @@ gsap.utils.toArray('.reveal').forEach(el => {
 
   let active = 0;
   let timer = null;
+  let inView = false;
   const DELAY = 4200;
   const isDesktop = () => window.matchMedia('(min-width: 861px)').matches;
 
@@ -317,7 +318,7 @@ gsap.utils.toArray('.reveal').forEach(el => {
   }
 
   function startAuto() {
-    if (reduceMotion) return;
+    if (reduceMotion || !inView) return;
     stopAuto();
     timer = setInterval(() => setActive((active + 1) % tabs.length), DELAY);
   }
@@ -330,16 +331,21 @@ gsap.utils.toArray('.reveal').forEach(el => {
   show.addEventListener('mouseenter', stopAuto);
   show.addEventListener('mouseleave', startAuto);
 
-  // Init + start auto-rotation when the section first enters view
+  // Init (no animation) — but do NOT rotate until the section is in view
   setActive(0, false);
   requestAnimationFrame(moveThumb);
   window.addEventListener('resize', moveThumb);
 
+  // Rotate only while the section is actually on screen
   ScrollTrigger.create({
     trigger: show,
     start: 'top 70%',
-    once: true,
-    onEnter: () => { moveThumb(); startAuto(); },
+    end: 'bottom 30%',
+    onToggle: (self) => {
+      inView = self.isActive;
+      if (inView) { moveThumb(); startAuto(); }
+      else stopAuto();
+    },
   });
 })();
 
