@@ -1512,11 +1512,11 @@ section {
 /* 03 — marketplace logos (official colors, like the marquee) */
 .dv-logos {
   display: grid; grid-template-columns: repeat(3, auto);
-  gap: clamp(24px, 3.5vw, 40px) clamp(30px, 4vw, 52px);
+  gap: clamp(18px, 2.6vw, 30px) clamp(26px, 3.4vw, 44px);
   align-items: center; justify-items: start;
 }
 .dv-logos img {
-  height: clamp(28px, 3.2vw, 36px); width: auto;
+  height: clamp(18px, 1.9vw, 22px); width: auto;
   filter: brightness(0.92);
 }
 
