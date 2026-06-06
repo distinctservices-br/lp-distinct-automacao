@@ -1584,7 +1584,17 @@ section {
                 opacity var(--duration-base) var(--ease-out);
   }
   .diff-tab.is-active { border-left-color: var(--color-primary); }
-  .diff-stage { min-height: 260px; }
+  /* Mobile-first: the stage grows to the active panel instead of a
+     fixed height with absolutely-stacked panels (which overflowed). */
+  .diff-stage { min-height: 0; }
+  .diff-panel {
+    position: relative;
+    inset: auto;
+    display: none;
+    opacity: 1 !important;
+    visibility: visible;
+  }
+  .diff-panel.is-active { display: flex; }
 }
 
 /* ===== PRICING =============================================== */
