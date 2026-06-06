@@ -465,109 +465,85 @@
       <p>Outras automações imprimem etiquetas. A Distinct organiza a sua operação.</p>
     </div>
 
-    <div class="diff-rows js-diff-rows">
+    <div class="diff-show js-diff-show">
 
-      <article class="diff-row">
-        <div class="diff-beam" aria-hidden="true"><span class="diff-beam-fill"></span></div>
-        <div class="diff-row-inner">
-          <div class="diff-row-aside">
-            <span class="diff-row-index">01</span>
-            <span class="diff-row-label">Agrupamento inteligente</span>
-          </div>
-          <div class="diff-row-main">
-            <h3>Etiquetas saem separadas por loja, produto e variação.</h3>
-            <p>A bandeja já chega organizada: cada loja em um bloco, cada produto agrupado, cada variação (cor, tamanho) etiquetada. Você pega da impressora e despacha, sem peneirar pilha de etiqueta.</p>
-          </div>
-          <div class="diff-row-visual" aria-hidden="true">
+      <!-- Left: compact tab list -->
+      <ul class="diff-tabs js-diff-tabs">
+        <span class="diff-thumb js-diff-thumb" aria-hidden="true"></span>
+        <li class="diff-tab is-active" data-i="0">
+          <span class="diff-tab-index">01</span>
+          <span class="diff-tab-title">Agrupamento inteligente</span>
+        </li>
+        <li class="diff-tab" data-i="1">
+          <span class="diff-tab-index">02</span>
+          <span class="diff-tab-title">Horário sob medida</span>
+        </li>
+        <li class="diff-tab" data-i="2">
+          <span class="diff-tab-index">03</span>
+          <span class="diff-tab-title">Multi-loja</span>
+        </li>
+        <li class="diff-tab" data-i="3">
+          <span class="diff-tab-index">04</span>
+          <span class="diff-tab-title">Recorrência ativa</span>
+        </li>
+        <li class="diff-tab" data-i="4">
+          <span class="diff-tab-index">05</span>
+          <span class="diff-tab-title">Roda enquanto você dorme</span>
+        </li>
+      </ul>
+
+      <!-- Right: visual stage -->
+      <div class="diff-stage js-diff-stage">
+        <div class="diff-panel is-active" data-i="0">
+          <div class="diff-panel-visual" aria-hidden="true">
             <span class="dv-tray-row"><i></i><b>Preto · M</b></span>
             <span class="dv-tray-row"><i></i><b>Preto · G</b></span>
             <span class="dv-tray-row"><i></i><b>Off White · M</b></span>
             <span class="dv-tray-row"><i></i><b>Verde · 40</b></span>
           </div>
+          <p class="diff-panel-text">Etiqueta sai separada por loja, produto e variação.</p>
         </div>
-      </article>
 
-      <article class="diff-row">
-        <div class="diff-beam" aria-hidden="true"><span class="diff-beam-fill"></span></div>
-        <div class="diff-row-inner">
-          <div class="diff-row-aside">
-            <span class="diff-row-index">02</span>
-            <span class="diff-row-label">Horário sob medida</span>
-          </div>
-          <div class="diff-row-main">
-            <h3>Você define a janela.</h3>
-            <p>Programe a varredura para o horário que faz sentido pra sua loja. Manhã cedo, antes do corte, ou múltiplas execuções ao longo do dia.</p>
-          </div>
-          <div class="diff-row-visual" aria-hidden="true">
+        <div class="diff-panel" data-i="1">
+          <div class="diff-panel-visual" aria-hidden="true">
             <span class="dv-sched">
-              <i></i><i></i><i></i><i></i><i></i><i></i>
-              <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
-              <i></i><i></i>
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
             </span>
           </div>
+          <p class="diff-panel-text">Você escolhe a janela e ela roda sozinha.</p>
         </div>
-      </article>
 
-      <article class="diff-row">
-        <div class="diff-beam" aria-hidden="true"><span class="diff-beam-fill"></span></div>
-        <div class="diff-row-inner">
-          <div class="diff-row-aside">
-            <span class="diff-row-index">03</span>
-            <span class="diff-row-label">Multi-loja</span>
-          </div>
-          <div class="diff-row-main">
-            <h3>Todas as suas lojas em uma execução.</h3>
-            <p>Tem 1, 3 ou 12 lojas no Upseller? A Distinct conecta em todas e processa cada uma separadamente, no mesmo ciclo.</p>
-          </div>
-          <div class="diff-row-visual" aria-hidden="true">
+        <div class="diff-panel" data-i="2">
+          <div class="diff-panel-visual" aria-hidden="true">
             <span class="dv-stores">
               <b>Shopee</b><b>Mercado Livre</b><b>Amazon</b><b>TikTok</b>
             </span>
           </div>
+          <p class="diff-panel-text">Todas as suas lojas em uma execução só.</p>
         </div>
-      </article>
 
-      <article class="diff-row">
-        <div class="diff-beam" aria-hidden="true"><span class="diff-beam-fill"></span></div>
-        <div class="diff-row-inner">
-          <div class="diff-row-aside">
-            <span class="diff-row-index">04</span>
-            <span class="diff-row-label">Recorrência ativa</span>
-          </div>
-          <div class="diff-row-main">
-            <h3>Roda de novo a cada X minutos.</h3>
-            <p>Pedido novo entrou depois do primeiro ciclo? A próxima varredura pega antes do corte do marketplace. Você não imprime duas vezes a mesma etiqueta.</p>
-          </div>
-          <div class="diff-row-visual" aria-hidden="true">
+        <div class="diff-panel" data-i="3">
+          <div class="diff-panel-visual" aria-hidden="true">
             <span class="dv-cycle">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg>
               <b>30 min</b>
             </span>
           </div>
+          <p class="diff-panel-text">Pedido atrasado entra na próxima varredura.</p>
         </div>
-      </article>
 
-      <article class="diff-row">
-        <div class="diff-beam" aria-hidden="true"><span class="diff-beam-fill"></span></div>
-        <div class="diff-row-inner">
-          <div class="diff-row-aside">
-            <span class="diff-row-index">05</span>
-            <span class="diff-row-label">Roda enquanto você dorme</span>
-          </div>
-          <div class="diff-row-main">
-            <h3>Agora mesmo, alguém tá usando.</h3>
-            <p>Não precisa abrir aba, não precisa estar online. A Distinct executa no servidor, você só pega da impressora.</p>
-          </div>
-          <div class="diff-row-visual" aria-hidden="true">
+        <div class="diff-panel" data-i="4">
+          <div class="diff-panel-visual" aria-hidden="true">
             <span class="dv-clock">
               <small>Hora local</small>
               <b id="diffClock">06h47:12</b>
             </span>
           </div>
+          <p class="diff-panel-text">Executa no servidor. Você só pega da impressora.</p>
         </div>
-      </article>
+      </div>
 
-      <div class="diff-beam diff-beam-end" aria-hidden="true"><span class="diff-beam-fill"></span></div>
     </div>
   </div>
 </section>

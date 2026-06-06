@@ -268,52 +268,79 @@ gsap.utils.toArray('.reveal').forEach(el => {
   });
 })();
 
-// ─── Diferenciais: beam draws across, then content reveals ────
-(function diffBeams() {
-  const wrap = document.querySelector('.js-diff-rows');
-  if (!wrap) return;
-  const rows = gsap.utils.toArray(wrap.querySelectorAll('.diff-row'));
+// ─── Diferenciais: interactive showcase (tabs + visual stage) ─
+(function diffShowcase() {
+  const show = document.querySelector('.js-diff-show');
+  if (!show) return;
+  const tabs = gsap.utils.toArray(show.querySelectorAll('.diff-tab'));
+  const panels = gsap.utils.toArray(show.querySelectorAll('.diff-panel'));
+  const thumb = show.querySelector('.js-diff-thumb');
+  if (!tabs.length || !panels.length) return;
 
-  rows.forEach(row => {
-    const fill = row.querySelector('.diff-beam-fill');
-    const parts = [
-      row.querySelector('.diff-row-aside'),
-      row.querySelector('.diff-row-main'),
-      row.querySelector('.diff-row-visual'),
-    ].filter(Boolean);
+  let active = 0;
+  let timer = null;
+  const DELAY = 4200;
+  const isDesktop = () => window.matchMedia('(min-width: 861px)').matches;
 
-    if (fill) gsap.set(fill, { scaleX: 0, opacity: 1 });
-    gsap.set(parts, { opacity: 0, y: 18 });
-
-    ScrollTrigger.create({
-      trigger: row,
-      start: 'top 82%',
-      once: true,
-      onEnter: () => {
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        if (fill) tl.to(fill, { scaleX: 1, duration: 0.85, ease: 'power2.inOut' });
-        tl.to(parts, { opacity: 1, y: 0, duration: 0.55, stagger: 0.09 }, '-=0.5');
-        // settle the beam to a calm persistent glow
-        if (fill) tl.to(fill, { opacity: 0.55, duration: 0.6 }, '-=0.15');
-      },
-    });
-  });
-
-  // Closing beam at the very bottom
-  const endFill = wrap.querySelector('.diff-beam-end .diff-beam-fill');
-  if (endFill) {
-    gsap.set(endFill, { scaleX: 0, opacity: 1 });
-    ScrollTrigger.create({
-      trigger: '.diff-beam-end',
-      start: 'top 92%',
-      once: true,
-      onEnter: () => {
-        gsap.timeline()
-          .to(endFill, { scaleX: 1, duration: 0.85, ease: 'power2.inOut' })
-          .to(endFill, { opacity: 0.55, duration: 0.6 }, '-=0.15');
-      },
+  function moveThumb() {
+    if (!thumb || !isDesktop()) return;
+    const tab = tabs[active];
+    gsap.to(thumb, {
+      top: tab.offsetTop,
+      height: tab.offsetHeight,
+      duration: 0.45,
+      ease: 'power3.out',
     });
   }
+
+  function setActive(i, animate = true) {
+    if (i === active && animate) return;
+    active = i;
+    tabs.forEach((t, n) => t.classList.toggle('is-active', n === i));
+
+    panels.forEach((p, n) => {
+      if (n === i) {
+        p.classList.add('is-active');
+        if (animate && !reduceMotion) {
+          gsap.fromTo(p, { opacity: 0 }, { opacity: 1, duration: 0.45, ease: 'power2.out' });
+          const v = p.querySelector('.diff-panel-visual');
+          const txt = p.querySelector('.diff-panel-text');
+          gsap.fromTo([v, txt].filter(Boolean),
+            { opacity: 0, y: 14 },
+            { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.08, delay: 0.05 });
+        }
+      } else {
+        p.classList.remove('is-active');
+      }
+    });
+    moveThumb();
+  }
+
+  function startAuto() {
+    if (reduceMotion) return;
+    stopAuto();
+    timer = setInterval(() => setActive((active + 1) % tabs.length), DELAY);
+  }
+  function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('mouseenter', () => { if (isDesktop()) setActive(i); });
+    tab.addEventListener('click', () => setActive(i));
+  });
+  show.addEventListener('mouseenter', stopAuto);
+  show.addEventListener('mouseleave', startAuto);
+
+  // Init + start auto-rotation when the section first enters view
+  setActive(0, false);
+  requestAnimationFrame(moveThumb);
+  window.addEventListener('resize', moveThumb);
+
+  ScrollTrigger.create({
+    trigger: show,
+    start: 'top 70%',
+    once: true,
+    onEnter: () => { moveThumb(); startAuto(); },
+  });
 })();
 
 // ─── How-it-works: stacked deck that fans out on scroll ───────
