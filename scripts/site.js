@@ -10,9 +10,11 @@ gsap.registerPlugin(ScrollTrigger);
 // ─── Lenis smooth scroll ──────────────────────────────────────
 // Integrated with GSAP ticker for frame-perfect sync
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Touch / coarse-pointer = mobile: use native scroll + skip desktop-only FX
+const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
 let lenis;
-if (!reduceMotion && typeof Lenis !== 'undefined') {
+if (!reduceMotion && !isTouch && typeof Lenis !== 'undefined') {
   lenis = new Lenis({
     duration: 0.8,
     easing: (t) => 1 - Math.pow(1 - t, 3), // cubic out — light, quick settle
@@ -43,6 +45,25 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     }
   });
 });
+
+// ─── Mobile nav menu (hamburger) ──────────────────────────────
+(function navMenu() {
+  const toggle = document.querySelector('.js-nav-toggle');
+  const navEl = document.querySelector('.nav');
+  const menu = document.getElementById('navMobile');
+  if (!toggle || !navEl || !menu) return;
+
+  function setOpen(open) {
+    navEl.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    menu.setAttribute('aria-hidden', String(!open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  toggle.addEventListener('click', () => setOpen(!navEl.classList.contains('menu-open')));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+  window.addEventListener('resize', () => { if (window.innerWidth > 860) setOpen(false); });
+})();
 
 // ─── Nav: shrink on scroll ────────────────────────────────────
 const nav = document.querySelector('.nav');
@@ -106,7 +127,7 @@ onScrollNav();
 
   // Hero result card: subtle parallax on scroll
   const heroRight = document.querySelector('.hero-right');
-  if (heroRight && !reduceMotion) {
+  if (heroRight && !reduceMotion && !isTouch) {
     gsap.to(heroRight, {
       y: 40,
       ease: 'none',
