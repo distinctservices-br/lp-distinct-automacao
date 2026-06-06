@@ -10,6 +10,8 @@
 <meta name="description" content="A Distinct emite a nota, programa o envio e imprime a etiqueta de todas as suas lojas (Shopee, Mercado Livre, Amazon, TikTok, Nuvemshop, Shopify) no horário que você definir, sem você abrir o Upseller. 5 dias grátis, sem cartão." />
 <meta name="keywords" content="automação Upseller, emissão NF automática, etiqueta marketplace, Shopee Mercado Livre Amazon, automação operacional, lojista multi-marketplace" />
 <meta name="author" content="Distinct Services" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="googlebot" content="index, follow" />
 <link rel="canonical" href="https://distinctservices.com.br/" />
 
 <!-- Open Graph / Facebook / LinkedIn -->
@@ -47,7 +49,7 @@
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 
-<!-- Structured data: Organization + SoftwareApplication -->
+<!-- Structured data: Organization + WebSite + SoftwareApplication + FAQ -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -58,21 +60,76 @@
       "name": "Distinct Services",
       "url": "https://distinctservices.com.br/",
       "logo": "https://distinctservices.com.br/assets/logo-1.svg",
+      "description": "Automação operacional para lojistas multi-marketplace: emissão de NF, programação de envio e impressão de etiqueta rodando sozinhas em cima do Upseller.",
+      "email": "distinctservices.br@gmail.com",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+55-11-99022-4104",
+        "contactType": "sales",
+        "areaServed": "BR",
+        "availableLanguage": "Portuguese"
+      },
       "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://distinctservices.com.br/#website",
+      "url": "https://distinctservices.com.br/",
+      "name": "Distinct Services",
+      "inLanguage": "pt-BR",
+      "publisher": { "@id": "https://distinctservices.com.br/#org" }
     },
     {
       "@type": "SoftwareApplication",
       "name": "Distinct",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
-      "description": "Automação operacional para lojistas multi-marketplace. Emite NF, programa envio e imprime etiqueta sem intervenção manual.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "BRL",
-        "description": "5 dias grátis, sem cartão"
-      },
-      "publisher": { "@id": "https://distinctservices.com.br/#org" }
+      "inLanguage": "pt-BR",
+      "url": "https://distinctservices.com.br/",
+      "description": "Automação operacional para lojistas multi-marketplace. Emite NF, programa envio e imprime etiqueta no horário definido, sem intervenção manual, integrada via Upseller a Shopee, Mercado Livre, Amazon, TikTok Shop, Nuvemshop e Shopify.",
+      "publisher": { "@id": "https://distinctservices.com.br/#org" },
+      "offers": [
+        { "@type": "Offer", "name": "Solo", "price": "119", "priceCurrency": "BRL", "description": "1 loja conectada" },
+        { "@type": "Offer", "name": "Pro", "price": "259", "priceCurrency": "BRL", "description": "Até 3 lojas conectadas" },
+        { "@type": "Offer", "name": "Business", "price": "399", "priceCurrency": "BRL", "description": "Até 5 lojas conectadas" },
+        { "@type": "Offer", "name": "Unlimited", "price": "599", "priceCurrency": "BRL", "description": "Lojas ilimitadas" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://distinctservices.com.br/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Como é o setup? Preciso trocar de ERP?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Não troca nada. A Distinct roda em cima do seu Upseller atual. A gente conecta nas suas lojas, configura horário e recorrência, e em até 24h tá rodando. Você continua usando o Upseller como sempre usou; só não precisa mais abrir ele toda manhã." }
+        },
+        {
+          "@type": "Question",
+          "name": "E se aparecer pedido depois que o ciclo já rodou?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A Distinct continua varrendo. Cada cliente escolhe a sua recorrência (por exemplo, a cada 30min entre 06h30 e 13h30), então pedido novo é capturado na próxima passada, antes do corte do marketplace." }
+        },
+        {
+          "@type": "Question",
+          "name": "O período de teste tem cobrança?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Não. 5 dias grátis, sem cartão. No fim do teste você decide se fica ou não, sem cobrança automática, sem pegadinha. Se decidir continuar, a gente acerta o plano e segue." }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso cancelar a qualquer momento?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim, e sem multa. Cancelamento é por WhatsApp, sem formulário, sem ligação de retenção. Após o pedido de cancelamento, a automação continua rodando até o fim do período já contratado, e depois disso é desligada." }
+        },
+        {
+          "@type": "Question",
+          "name": "Como funciona o suporte?",
+          "acceptedAnswer": { "@type": "Answer", "text": "WhatsApp direto, das 8h às 20h, todos os dias úteis." }
+        },
+        {
+          "@type": "Question",
+          "name": "Quais marketplaces vocês suportam?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Shopee, Mercado Livre, Amazon, TikTok Shop, Nuvemshop e Shopify, todas com integração nativa via Upseller. Se você tem outro canal, fala com a gente: o time avalia caso a caso." }
+        }
+      ]
     }
   ]
 }
@@ -89,7 +146,7 @@
 <nav class="nav" data-screen-label="Nav">
   <div class="container nav-inner">
     <a href="#top" class="nav-brand">
-      <img src="assets/logo-1.svg" alt="Distinct" />
+      <img src="assets/logo-1.svg" alt="Distinct" width="36" height="36" decoding="async" />
       <span class="nav-brand-text">DISTINCT</span>
     </a>
     <ul class="nav-links">
@@ -844,7 +901,7 @@
   <div class="container foot-cols">
     <div class="foot-col foot-col-brand">
       <a href="#top" class="foot-brand">
-        <img src="assets/logo-1.svg" alt="" />
+        <img src="assets/logo-1.svg" alt="" width="38" height="38" loading="lazy" decoding="async" />
         <div class="foot-brand-text">
           Distinct Services
           <small>menos esforço, mais evolução.</small>
@@ -891,14 +948,14 @@
       { src: 'assets/marketplaces/shopify.svg',       alt: 'Shopify' },
     ];
     const html = items.map(it =>
-      `<div class="marquee-item"><img src="${it.src}" alt="${it.alt}" loading="lazy"/></div>`
+      `<div class="marquee-item"><img src="${it.src}" alt="${it.alt}" width="130" height="40" loading="lazy" decoding="async"/></div>`
     ).join('');
     const t1 = document.getElementById('marqueeTrack');
     const t2 = document.getElementById('marqueeTrack2');
     if (t1) t1.innerHTML = html + html + html;
     // Reverse order for second row
     if (t2) t2.innerHTML = [...items].reverse().map(it =>
-      `<div class="marquee-item"><img src="${it.src}" alt="${it.alt}" loading="lazy"/></div>`
+      `<div class="marquee-item"><img src="${it.src}" alt="${it.alt}" width="130" height="40" loading="lazy" decoding="async"/></div>`
     ).join('').repeat(3);
   })();
 </script>
