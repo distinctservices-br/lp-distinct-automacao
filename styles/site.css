@@ -1480,42 +1480,82 @@ section {
   align-items: center;
   color: var(--ink);
 }
-/* 01 — label tray */
-.dv-tray-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
-.dv-tray-row:last-child { margin-bottom: 0; }
+/* 01 — label tray (vertical list) */
+.dv-tray { display: flex; flex-direction: column; gap: 12px; }
+.dv-tray-row { display: flex; align-items: center; gap: 12px; }
 .dv-tray-row i {
-  width: 128px; height: 26px; border-radius: 5px;
+  width: 84px; height: 22px; border-radius: 4px; flex-shrink: 0;
   background: var(--ink-soft); border-left: 4px solid var(--ink);
 }
 .dv-tray-row b {
-  font-family: var(--font-mono); font-size: 13px; font-weight: 400;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 400;
   color: var(--ink); opacity: 0.7; white-space: nowrap;
 }
-/* 02 — schedule */
-.dv-sched { display: grid; grid-template-columns: repeat(7, 1fr); gap: 9px; width: min(300px, 88%); }
-.dv-sched i { aspect-ratio: 1; border-radius: 6px; background: var(--ink-soft); }
-.dv-sched i.on { background: var(--ink); }
-/* 03 — stores */
-.dv-stores { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
-.dv-stores b {
-  font-family: var(--font-mono); font-size: 15px; font-weight: 400;
-  color: var(--ink); opacity: 0.9;
-  padding: 8px 20px; border-radius: 100px; border: 1px solid var(--ink-soft);
+
+/* 02 — week calendar */
+.dv-cal { display: flex; gap: clamp(6px, 1.2vw, 12px); align-items: flex-end; }
+.dv-cal-col { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.dv-cal-col em {
+  font-family: var(--font-mono); font-style: normal; font-size: 11px;
+  color: var(--ink); opacity: 0.65;
 }
-/* 04 — cycle */
-.dv-cycle { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
-.dv-cycle svg { width: 54px; height: 54px; color: var(--ink); }
-.dv-cycle b { font-family: var(--font-nums); font-size: 44px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
-/* 05 — clock */
-.dv-clock { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
-.dv-clock small {
+.dv-cal-col i {
+  position: relative; width: 16px; height: 96px; border-radius: 8px;
+  background: var(--ink-soft);
+}
+.dv-cal-col.win i::after {
+  content: ""; position: absolute; left: 0; right: 0;
+  top: 26%; height: 50%; border-radius: 8px; background: var(--ink);
+}
+.dv-cal-col.off { opacity: 0.4; }
+
+/* 03 — marketplace logos (unified white) */
+.dv-logos {
+  display: grid; grid-template-columns: repeat(3, auto);
+  gap: clamp(16px, 2.4vw, 28px) clamp(20px, 3vw, 36px);
+  align-items: center; justify-items: start;
+}
+.dv-logos img {
+  height: 22px; width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.82;
+}
+
+/* 04 — recurrence runs until cutoff */
+.dv-runs { display: flex; flex-direction: column; gap: 18px; }
+.dv-runs-label {
   font-family: var(--font-mono); font-size: 12px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--ink); opacity: 0.55;
+}
+.dv-runs-line { display: flex; align-items: center; gap: 14px; }
+.dv-runs-line i {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--ink); opacity: 0.85; flex-shrink: 0;
+}
+.dv-runs-cut {
+  font-family: var(--font-mono); font-style: normal; font-size: 13px;
+  letter-spacing: 0.04em; color: var(--ink);
+  padding: 6px 14px; border-radius: 8px; border: 1px solid var(--ink);
+  margin-left: 2px;
+}
+
+/* 05 — wake up, already printed */
+.dv-wake { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+.dv-wake-time { display: flex; flex-direction: column; gap: 4px; }
+.dv-wake-time small {
+  font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
   letter-spacing: 0.12em; color: var(--ink); opacity: 0.5;
 }
-.dv-clock b {
-  font-family: var(--font-nums); font-weight: 700; font-size: 52px;
-  color: var(--ink); letter-spacing: -0.02em;
+.dv-wake-time b {
+  font-family: var(--font-nums); font-weight: 700; font-size: 48px;
+  color: var(--ink); letter-spacing: -0.02em; line-height: 1;
 }
+.dv-wake-done {
+  font-family: var(--font-mono); font-size: 12px; color: var(--ink);
+  padding: 6px 14px; border-radius: 100px; border: 1px solid var(--ink-soft);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.dv-wake-done::before { content: "✓"; color: var(--ink); font-weight: 700; }
 
 @media (max-width: 860px) {
   .diff-show { grid-template-columns: 1fr; gap: 22px; }
