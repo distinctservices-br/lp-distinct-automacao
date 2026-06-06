@@ -1358,150 +1358,157 @@ section {
   }
 }
 
-/* ===== DIFERENCIAIS ========================================== */
+/* ===== DIFERENCIAIS — editorial beam list ================== */
 .diff {
-  background: var(--color-green-deep);
-  position: relative;
-}
-.diff-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 18px;
-}
-@media (max-width: 980px) { .diff-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 640px) { .diff-grid { grid-template-columns: 1fr; } }
-
-.diff-card {
-  position: relative;
-  padding: 30px;
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(255,255,255,0.05);
-  background: #141414;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition: transform var(--duration-base) var(--ease-out),
-              border-color var(--duration-base) var(--ease-out),
-              box-shadow var(--duration-base) var(--ease-out);
-  overflow: hidden;
-  min-height: 240px;
-}
-.diff-card:hover {
-  transform: translateY(-6px);
-  border-color: var(--color-green-glass-border-strong);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 40px rgba(115,243,164,0.08);
-}
-.diff-card .eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--color-primary);
-  font-weight: 500;
-}
-.diff-card h3 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: var(--color-white-1);
-  transition: color var(--duration-fast) var(--ease-out);
-}
-.diff-card:hover h3 { color: var(--color-primary); }
-.diff-card p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--color-muted-text);
-}
-
-.diff-card.featured {
-  grid-row: span 2;
-  background:
-    radial-gradient(120% 80% at 0% 0%, rgba(115,243,164,0.12) 0%, transparent 55%),
-    #1A1A1A;
-}
-.diff-card.featured h3 { font-size: 28px; }
-/* top accent on featured */
-.diff-card.featured::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-primary), transparent 60%);
-}
-
-/* mini visual: grouped boxes by store/product */
-.diff-visual {
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.diff-visual-row {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-.diff-visual-row .label-mini {
-  flex: 1;
-  height: 22px;
-  border-radius: 4px;
-  background: linear-gradient(90deg, var(--color-white-1) 0%, var(--color-white-1) 70%, transparent);
-  position: relative;
-}
-.diff-visual-row .label-mini::after {
-  content: "";
-  position: absolute;
-  left: 8px; top: 50%; transform: translateY(-50%);
-  width: 40%;
-  height: 6px;
   background: var(--color-black-1);
-  border-radius: 2px;
+  position: relative;
 }
-.diff-visual-row .badge-mini {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 3px;
-  background: rgba(115,243,164,0.10);
-  color: var(--color-primary);
-  border: 1px solid var(--color-green-glass-border);
-}
-
-/* mini visual: schedule grid */
-.diff-sched {
-  margin-top: auto;
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 4px;
-}
-.diff-sched span {
-  height: 14px;
-  border-radius: 3px;
-  background: rgba(250,250,250,0.06);
-}
-.diff-sched span.active {
-  background: var(--color-primary);
-  box-shadow: 0 0 8px rgba(115,243,164,0.5);
-}
-
-.diff-clock {
-  margin-top: auto;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--color-muted-text);
+.diff-rows {
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
-.diff-clock .now {
+
+/* ── Glowing beam separator (the reference effect) ────────── */
+.diff-beam {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  background: rgba(255,255,255,0.07);
+  overflow: visible;
+}
+.diff-beam-fill {
+  position: absolute;
+  left: 0; top: 0;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(115,243,164,0.45) 18%,
+    var(--color-primary) 52%,
+    rgba(115,243,164,0.22) 100%);
+  box-shadow: 0 0 12px rgba(115,243,164,0.55), 0 0 30px rgba(115,243,164,0.28);
+}
+.diff-row:hover .diff-beam-fill {
+  transform: scaleX(1) !important;
+  opacity: 1;
+}
+
+/* ── Row ──────────────────────────────────────────────────── */
+.diff-row { position: relative; }
+.diff-row-inner {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.42fr) 1fr auto;
+  gap: clamp(20px, 4vw, 56px);
+  align-items: start;
+  padding: clamp(26px, 3.6vw, 44px) 0;
+}
+.diff-row-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.diff-row-index {
   font-family: var(--font-nums);
   font-weight: 700;
-  font-size: 32px;
-  color: var(--color-white-1);
+  font-size: clamp(26px, 3.2vw, 38px);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: rgba(250,250,250,0.22);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.diff-row-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+.diff-row-main { max-width: 54ch; }
+.diff-row-main h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(21px, 2.5vw, 30px);
+  line-height: 1.16;
   letter-spacing: -0.02em;
+  color: var(--color-white-1);
+  margin-bottom: 12px;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.diff-row-main p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-muted-text);
+}
+.diff-row:hover .diff-row-index { color: var(--color-primary); }
+.diff-row:hover .diff-row-main h3 { color: var(--color-primary); }
+
+/* ── Product visuals — ONE unified off-white tone ─────────── *
+ * Everything uses --ink (bright) over --ink-soft (same hue,
+ * faint) so it reads as deliberate monochrome, never "dirty". */
+.diff-row-visual {
+  --ink: rgba(250,250,250,0.90);
+  --ink-soft: rgba(250,250,250,0.14);
+  align-self: center;
+  color: var(--ink);
+  min-width: 150px;
+  display: flex;
+  justify-content: flex-end;
+}
+/* 01 — label tray */
+.dv-tray-row {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 6px;
+}
+.dv-tray-row:last-child { margin-bottom: 0; }
+.dv-tray-row i {
+  width: 58px; height: 15px; border-radius: 3px;
+  background: var(--ink-soft);
+  border-left: 3px solid var(--ink);
+}
+.dv-tray-row b {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 400;
+  color: var(--ink); opacity: 0.65; white-space: nowrap;
+}
+.diff-row-visual:has(.dv-tray-row) { flex-direction: column; align-items: flex-end; }
+/* 02 — schedule */
+.dv-sched { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; width: 154px; }
+.dv-sched i { height: 16px; border-radius: 3px; background: var(--ink-soft); }
+.dv-sched i.on { background: var(--ink); }
+/* 03 — stores */
+.dv-stores { display: flex; flex-direction: column; gap: 7px; align-items: flex-end; }
+.dv-stores b {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 400;
+  color: var(--ink); opacity: 0.85;
+  padding: 4px 12px; border-radius: 100px;
+  border: 1px solid var(--ink-soft);
+}
+/* 04 — cycle */
+.dv-cycle { display: flex; align-items: center; gap: 12px; }
+.dv-cycle svg { width: 30px; height: 30px; color: var(--ink); }
+.dv-cycle b { font-family: var(--font-nums); font-size: 24px; font-weight: 700; color: var(--ink); }
+/* 05 — clock */
+.dv-clock { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+.dv-clock small {
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--ink); opacity: 0.5;
+}
+.dv-clock b {
+  font-family: var(--font-nums); font-weight: 700; font-size: 28px;
+  color: var(--ink); letter-spacing: -0.02em;
+}
+
+@media (max-width: 860px) {
+  .diff-row-inner {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 26px 0;
+  }
+  .diff-row-aside { flex-direction: row; align-items: baseline; gap: 14px; }
+  .diff-row-visual { display: none; }
 }
 
 /* ===== PRICING =============================================== */

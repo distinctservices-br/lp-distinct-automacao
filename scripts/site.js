@@ -268,6 +268,54 @@ gsap.utils.toArray('.reveal').forEach(el => {
   });
 })();
 
+// ─── Diferenciais: beam draws across, then content reveals ────
+(function diffBeams() {
+  const wrap = document.querySelector('.js-diff-rows');
+  if (!wrap) return;
+  const rows = gsap.utils.toArray(wrap.querySelectorAll('.diff-row'));
+
+  rows.forEach(row => {
+    const fill = row.querySelector('.diff-beam-fill');
+    const parts = [
+      row.querySelector('.diff-row-aside'),
+      row.querySelector('.diff-row-main'),
+      row.querySelector('.diff-row-visual'),
+    ].filter(Boolean);
+
+    if (fill) gsap.set(fill, { scaleX: 0, opacity: 1 });
+    gsap.set(parts, { opacity: 0, y: 18 });
+
+    ScrollTrigger.create({
+      trigger: row,
+      start: 'top 82%',
+      once: true,
+      onEnter: () => {
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        if (fill) tl.to(fill, { scaleX: 1, duration: 0.85, ease: 'power2.inOut' });
+        tl.to(parts, { opacity: 1, y: 0, duration: 0.55, stagger: 0.09 }, '-=0.5');
+        // settle the beam to a calm persistent glow
+        if (fill) tl.to(fill, { opacity: 0.55, duration: 0.6 }, '-=0.15');
+      },
+    });
+  });
+
+  // Closing beam at the very bottom
+  const endFill = wrap.querySelector('.diff-beam-end .diff-beam-fill');
+  if (endFill) {
+    gsap.set(endFill, { scaleX: 0, opacity: 1 });
+    ScrollTrigger.create({
+      trigger: '.diff-beam-end',
+      start: 'top 92%',
+      once: true,
+      onEnter: () => {
+        gsap.timeline()
+          .to(endFill, { scaleX: 1, duration: 0.85, ease: 'power2.inOut' })
+          .to(endFill, { opacity: 0.55, duration: 0.6 }, '-=0.15');
+      },
+    });
+  }
+})();
+
 // ─── How-it-works: stacked deck that fans out on scroll ───────
 (function howtoDeck() {
   const stage = document.querySelector('.js-howto-stage');
