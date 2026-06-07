@@ -2364,15 +2364,13 @@ section {
  * ============================================================ */
 .foot {
   background: var(--color-black-1);
-  border-top: 1px solid var(--color-divider);
   padding: 80px 0 32px;
 }
 .foot-cols {
   display: grid;
   grid-template-columns: 1.6fr 1fr 1fr;
   gap: clamp(32px, 5vw, 64px);
-  padding-bottom: 56px;
-  border-bottom: 1px solid var(--color-divider);
+  padding-bottom: 48px;
   margin-bottom: 24px;
 }
 .foot-col-brand {
