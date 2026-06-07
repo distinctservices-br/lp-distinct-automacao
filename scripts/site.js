@@ -16,13 +16,11 @@ const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
 let lenis;
 if (!reduceMotion && !isTouch && typeof Lenis !== 'undefined') {
   lenis = new Lenis({
-    duration: 0.8,
-    easing: (t) => 1 - Math.pow(1 - t, 3), // cubic out — light, quick settle
+    lerp: 0.12,            // continuous interpolation — linear feel, low latency
+    smoothWheel: true,
+    wheelMultiplier: 1,
     orientation: 'vertical',
     gestureOrientation: 'vertical',
-    smoothWheel: true,
-    wheelMultiplier: 1.1,
-    touchMultiplier: 1.6,
   });
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
