@@ -1,34 +1,18 @@
 /* ============================================================
  * Distinct Services — site behavior v2
- * Lenis smooth scroll · SplitType hero · Magnetic CTA
+ * Native smooth scroll · SplitType hero · Magnetic CTA
  * Nav shrink · ScrollTrigger reveals · Trust counters
  * Live console · FAQ accordion · Live clock
  * ============================================================ */
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ─── Lenis smooth scroll ──────────────────────────────────────
-// Integrated with GSAP ticker for frame-perfect sync
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-// Touch / coarse-pointer = mobile: use native scroll + skip desktop-only FX
+// Touch / coarse-pointer = mobile: skip desktop-only FX
 const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
-let lenis;
-if (!reduceMotion && !isTouch && typeof Lenis !== 'undefined') {
-  lenis = new Lenis({
-    lerp: 0.12,            // continuous interpolation — linear feel, low latency
-    smoothWheel: true,
-    wheelMultiplier: 1,
-    orientation: 'vertical',
-    gestureOrientation: 'vertical',
-  });
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
-  // Sync ScrollTrigger with Lenis scroll position
-  lenis.on('scroll', ScrollTrigger.update);
-}
-
-// ─── Anchor links: smooth-scroll via Lenis ───────────────────
+// ─── Anchor links: native smooth-scroll (instant response, no lag) ──
+// scroll-margin-top on sections handles the fixed-nav offset (see CSS).
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
     const id = link.getAttribute('href');
@@ -36,11 +20,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     const target = document.querySelector(id);
     if (!target) return;
     e.preventDefault();
-    if (lenis) {
-      lenis.scrollTo(target, { offset: -80, duration: 1.0 });
-    } else {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
   });
 });
 
@@ -66,14 +46,9 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 // ─── Nav: shrink on scroll ────────────────────────────────────
 const nav = document.querySelector('.nav');
 function onScrollNav() {
-  const scrolled = lenis ? lenis.scroll > 30 : window.scrollY > 30;
-  nav.classList.toggle('scrolled', scrolled);
+  nav.classList.toggle('scrolled', window.scrollY > 30);
 }
-if (lenis) {
-  lenis.on('scroll', onScrollNav);
-} else {
-  window.addEventListener('scroll', onScrollNav, { passive: true });
-}
+window.addEventListener('scroll', onScrollNav, { passive: true });
 onScrollNav();
 
 // ─── Hero: SplitType word reveal + result card ────────────────

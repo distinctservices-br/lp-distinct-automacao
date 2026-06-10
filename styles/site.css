@@ -6,6 +6,9 @@
 
 html { scroll-behavior: smooth; }
 
+/* Offset anchor-jump targets so the fixed nav doesn't cover the heading */
+section[id] { scroll-margin-top: 88px; }
+
 body {
   background: var(--color-black-1);
   color: var(--color-white-1);
